@@ -1,0 +1,43 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: glauth
+  namespace: {{ .Release.Namespace }}
+data:
+  config.cfg: |-
+    debug = true
+
+    [ldap]
+    enabled = true
+    listen = "0.0.0.0:3389"
+
+    [ldaps]
+    enabled = false
+    listen = "0.0.0.0:3636"
+    cert = "/app/config/glauth.crt"
+    key = "/app/config/glauth.key"
+
+    [backend]
+    datastore = "config"
+    baseDN = "dc=latam,dc=redhat"
+    nameformat = "cn"
+    groupformat = "cn"
+    anonymousdse = true
+
+    [behaviors]
+    IgnoreCapabilities = true
+    LimitFailedBinds = false
+    NumberOfFailedBinds = 3
+    PeriodOfFailedBinds = 10
+    BlockFailedBindsFor = 60
+    PruneSourceTableEvery = 600
+    PruneSourcesOlderThan = 600
+
+    {{ dict "users" .Values.config.users | toToml | nindent 4 }}
+    {{- if .Values.config.extra_users }}
+      {{- dict "users" .Values.config.extra_users | toToml | nindent 4 }}
+    {{- end }}
+    {{- dict "groups" .Values.config.groups | toToml | nindent 4 }}
+      {{- if .Values.config.extra_groups }}
+    {{- dict "groups" .Values.config.extra_groups | toToml | nindent 4 }}
+    {{- end }}
