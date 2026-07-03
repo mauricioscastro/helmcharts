@@ -38,6 +38,6 @@ data:
       {{- dict "users" .Values.config.extra_users | toToml | nindent 4 }}
     {{- end }}
     {{- dict "groups" .Values.config.groups | toToml | nindent 4 }}
-      {{- if .Values.config.extra_groups }}
-    {{- dict "groups" .Values.config.extra_groups | toToml | nindent 4 }}
+    {{- if .Values.config.extra_groups }}
+      {{- dict "groups" .Values.config.extra_groups | toToml | nindent 4 }}
     {{- end }}
