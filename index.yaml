@@ -2,12 +2,12 @@ apiVersion: v1
 entries:
   glauth:
   - apiVersion: v2
-    created: "2026-07-03T18:57:20.595549213-03:00"
+    created: "2026-07-06T10:38:42.362679413-03:00"
     description: deploy glauth without ldaps
-    digest: 751c4a9bf05747e55b83e228e1c56aae18cbbc993ad1c3127770332c771fd2f9
+    digest: 33fec2737d9c3bc8aa3580f6572d1152e80c49d2ec4ac4f31cdcea9fe36f7843
     icon: https://glauth.github.io/assets/logo.png
     name: glauth
     urls:
-    - https://helm.mscastro.net/glauth-0.1.0.tgz
-    version: 0.1.0
-generated: "2026-07-03T18:57:20.594824414-03:00"
+    - https://helm.mscastro.net/glauth-0.1.1.tgz
+    version: 0.1.1
+generated: "2026-07-06T10:38:42.362238492-03:00"
