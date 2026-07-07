@@ -1,8 +1,22 @@
 apiVersion: v1
 entries:
+  checluster:
+  - apiVersion: v2
+    created: "2026-07-07T09:52:27.759120963-03:00"
+    dependencies:
+    - name: devspaces
+      repository: https://helm.mscastro.net/
+      version: 0.1.2
+    description: deploy a devspaces che cluster
+    digest: f915015ed2a61196179944472a7817c190aae66d70d20152eded0938a15979fe
+    icon: https://developers.redhat.com/sites/default/files/styles/static_band_medium/public/hero-dev-os-dev-spaces-collage_0.png?itok=Y2W0XYY4
+    name: checluster
+    urls:
+    - https://helm.mscastro.net/checluster-0.1.0.tgz
+    version: 0.1.0
   devspaces:
   - apiVersion: v2
-    created: "2026-07-07T09:43:56.557171392-03:00"
+    created: "2026-07-07T09:52:27.759205083-03:00"
     description: deploy devspaces operator
     digest: 8355fea6c0159f1bf2b56f2813724a35031288158156cd1af8e6d464a5b3c69f
     icon: https://developers.redhat.com/sites/default/files/styles/static_band_medium/public/hero-dev-os-dev-spaces-collage_0.png?itok=Y2W0XYY4
@@ -12,7 +26,7 @@ entries:
     version: 0.1.2
   glauth:
   - apiVersion: v2
-    created: "2026-07-07T09:43:56.557533775-03:00"
+    created: "2026-07-07T09:52:27.75950594-03:00"
     description: deploy glauth without ldaps
     digest: 3518dc53b31b9890119e6cb1d92af4e9deff85caf6896e302673ef8776338344
     icon: https://glauth.github.io/assets/logo.png
@@ -20,4 +34,4 @@ entries:
     urls:
     - https://helm.mscastro.net/glauth-0.1.1.tgz
     version: 0.1.1
-generated: "2026-07-07T09:43:56.556629577-03:00"
+generated: "2026-07-07T09:52:27.7588377-03:00"
