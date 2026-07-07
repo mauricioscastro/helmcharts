@@ -1,0 +1,6 @@
+apiVersion: v2
+name: devspaces
+version: 0.1.2
+description: deploy devspaces operator
+icon: https://developers.redhat.com/sites/default/files/styles/static_band_medium/public/hero-dev-os-dev-spaces-collage_0.png?itok=Y2W0XYY4
+

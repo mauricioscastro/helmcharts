@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: check-running-devspaces-operator
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: check-devspaces-operator
+          image: quay.io/zcve/bashkc
+          command:
+            - bash
+            - -c    
+            - |
+              kubectl -n openshift-operators wait deployment/devspaces-operator --for=condition=Available --timeout=600s && \
+              kubectl -n openshift-operators wait deployment/devworkspace-controller-manager --for=condition=Progressing --timeout=600s && \
+              kubectl -n openshift-operators wait deployment/devworkspace-webhook-server --for=condition=Available --timeout=600s
