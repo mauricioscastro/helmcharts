@@ -1,6 +1,0 @@
-dependencies:
-- name: k8simgpuller
-  repository: https://helm.mscastro.net/
-  version: 0.1.0
-digest: sha256:5c25cd128f691d58c671dee3cec1962834b95aa0d614926fd60298569aa5b585
-generated: "2026-07-07T12:41:05.952791611-03:00"
