@@ -1,0 +1,68 @@
+apiVersion: org.eclipse.che/v2
+kind: CheCluster
+metadata:
+  name: devspaces
+  namespace: {{ .Release.Namespace }}
+spec:
+  components:
+    cheServer:
+      debug: false
+      logLevel: INFO
+    dashboard:
+      logLevel: ERROR
+    devWorkspace: {}
+    devfileRegistry:
+      disableInternalRegistry: true
+    imagePuller:
+      enable: true
+      spec:
+        daemonsetName: devworkspace-image-puller
+        deploymentName: devworkspace-image-puller
+        images: 'traefik-rhel9=registry.redhat.io/devspaces/traefik-rhel9@sha256:b14ae96604856abc1148c51cb10a55993bbb466e0471f235c7a3d8d1e796394a;devworkspace-project-clone-rhel9=registry.redhat.io/devworkspace/devworkspace-project-clone-rhel9@sha256:9782d7a16befa43ab54c6a6c88431e5b1d6a432d72d77a049fd4548053c86ef3;che-code-insiders=quay.io/che-incubator/che-code:insiders;code-rhel9=registry.redhat.io/devspaces/code-rhel9@sha256:a0a9fcbe1b78d9d51dcb18ab46978a3a3cd04b5605aa93c4db3f689b71be2e0c'
+    metrics:
+      enable: true
+    pluginRegistry:
+      externalPluginRegistries:
+        - url: 'https://marketplace.visualstudio.com/'
+      openVSXURL: 'https://open-vsx.org'
+  containerRegistry: {}
+  devEnvironments:
+    startTimeoutSeconds: 300
+    security: {}
+    secondsOfRunBeforeIdling: 1800
+    maxNumberOfWorkspacesPerUser: 5
+    disableContainerRunCapabilities: false
+    containerBuildConfiguration:
+      openShiftSecurityContextConstraint: container-build
+    containerRunConfiguration:
+      containerSecurityContext:
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+            - SETGID
+            - SETUID
+            - CHOWN
+        procMount: Unmasked
+      openShiftSecurityContextConstraint: container-run
+      workspacesPodAnnotations:
+        io.kubernetes.cri-o.Devices: '/dev/fuse,/dev/net/tun'
+    ignoredUnrecoverableEvents:
+      - FailedScheduling
+    maxNumberOfRunningWorkspacesPerUser: -1
+    maxNumberOfRunningWorkspacesPerCluster: -1
+    defaultNamespace:
+      autoProvision: true
+      template: <username>-devspaces
+    secondsOfInactivityBeforeIdling: -1
+    storage:
+      pvcStrategy: per-workspace
+    persistUserHome:
+      enabled: true
+  gitServices: {}
+  networking:
+    auth:
+      gateway:
+        configLabels:
+          app: che
+          component: che-gateway-config
+
