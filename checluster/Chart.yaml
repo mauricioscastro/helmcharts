@@ -7,5 +7,5 @@ icon: https://developers.redhat.com/sites/default/files/styles/static_band_mediu
 dependencies:
   - name: devspaces
     version: "0.1.2"
-    repository: "https://helm.mscastro.net"
+    repository: "https://helm.mscastro.net/"
 
