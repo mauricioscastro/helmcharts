@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   devspaces:
   - apiVersion: v2
-    created: "2026-07-07T09:41:31.895781247-03:00"
+    created: "2026-07-07T09:43:56.557171392-03:00"
     description: deploy devspaces operator
     digest: 8355fea6c0159f1bf2b56f2813724a35031288158156cd1af8e6d464a5b3c69f
     icon: https://developers.redhat.com/sites/default/files/styles/static_band_medium/public/hero-dev-os-dev-spaces-collage_0.png?itok=Y2W0XYY4
@@ -12,7 +12,7 @@ entries:
     version: 0.1.2
   glauth:
   - apiVersion: v2
-    created: "2026-07-07T09:41:31.896085059-03:00"
+    created: "2026-07-07T09:43:56.557533775-03:00"
     description: deploy glauth without ldaps
     digest: 3518dc53b31b9890119e6cb1d92af4e9deff85caf6896e302673ef8776338344
     icon: https://glauth.github.io/assets/logo.png
@@ -20,4 +20,4 @@ entries:
     urls:
     - https://helm.mscastro.net/glauth-0.1.1.tgz
     version: 0.1.1
-generated: "2026-07-07T09:41:31.895590943-03:00"
+generated: "2026-07-07T09:43:56.556629577-03:00"
