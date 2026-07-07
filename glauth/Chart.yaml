@@ -1,0 +1,6 @@
+apiVersion: v2
+name: glauth
+version: 0.1.1
+description: deploy glauth without ldaps
+icon: https://glauth.github.io/assets/logo.png
+

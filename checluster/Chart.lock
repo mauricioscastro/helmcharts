@@ -1,0 +1,6 @@
+dependencies:
+- name: devspaces
+  repository: https://helm.mscastro.net/
+  version: 0.1.2
+digest: sha256:505cece900d319c6ae114cfb8e7f6f5e6b324c2ff17c9856ef604efdf4123daf
+generated: "2026-07-07T10:23:46.716164228-03:00"
