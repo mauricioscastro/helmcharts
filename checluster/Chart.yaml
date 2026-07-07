@@ -4,3 +4,8 @@ version: 0.1.0
 description: deploy a devspaces che cluster
 icon: https://developers.redhat.com/sites/default/files/styles/static_band_medium/public/hero-dev-os-dev-spaces-collage_0.png?itok=Y2W0XYY4
 
+dependencies:
+  - name: devspaces
+    version: "0.1.2"
+    repository: "https://helm.mscastro.net"
+
