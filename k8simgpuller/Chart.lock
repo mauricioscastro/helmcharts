@@ -1,0 +1,6 @@
+dependencies:
+- name: k8simgpuller-operator
+  repository: https://charts.mscastro.net
+  version: 0.1.0
+digest: sha256:08194942856cfca57714842f89a93bdaee58008a53f7e129e9673e6ca8914c65
+generated: "2026-07-08T14:58:41.648391494-03:00"
