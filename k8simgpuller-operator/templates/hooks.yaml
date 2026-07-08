@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: remove-csv
+  name: remove-k8simgpuller-csv
   namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/hook": post-delete
