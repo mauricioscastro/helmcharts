@@ -7,4 +7,4 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAApYnpU
 dependencies:
   - name: k8simgpuller
     version: "0.1.0"
-    repository: "https://helm.mscastro.net/"
+    repository: "https://charts.mscastro.net/"
