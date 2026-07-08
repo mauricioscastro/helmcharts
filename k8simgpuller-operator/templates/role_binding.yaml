@@ -1,8 +1,26 @@
 # Custom ClusterRole with delete permissions
 apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: devspaces-default-sa-read-openshift-operators
+  namespace: openshift-operators
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{ .Release.Namespace }}
+---  
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: devspaces-operator-deleter
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}  
 rules:
 - apiGroups: ["apps"]
   resources: ["deployments", "replicasets", "statefulsets", "daemonsets"]
@@ -26,6 +44,8 @@ kind: RoleBinding
 metadata:
   name: devspaces-default-sa-deleter
   namespace: openshift-operators
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}  
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -40,6 +60,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: devspaces-default-sa-deleter-cluster
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}  
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

@@ -3,6 +3,8 @@ kind: KubernetesImagePuller
 metadata:
   name: devspaces-image-puller
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}  
 spec:
   configMapName: k8s-image-puller
   daemonsetName: devworkspace-image-puller
