@@ -1,0 +1,5 @@
+images:
+- traefik-rhel9=registry.redhat.io/devspaces/traefik-rhel9@sha256:b14ae96604856abc1148c51cb10a55993bbb466e0471f235c7a3d8d1e796394a
+- devworkspace-project-clone-rhel9=registry.redhat.io/devworkspace/devworkspace-project-clone-rhel9@sha256:9782d7a16befa43ab54c6a6c88431e5b1d6a432d72d77a049fd4548053c86ef3
+- che-code-insiders=quay.io/che-incubator/che-code:insiders
+- code-rhel9=registry.redhat.io/devspaces/code-rhel9@sha256:a0a9fcbe1b78d9d51dcb18ab46978a3a3cd04b5605aa93c4db3f689b71be2e0c
