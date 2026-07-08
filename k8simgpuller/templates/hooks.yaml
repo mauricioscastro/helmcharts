@@ -19,4 +19,6 @@ spec:
             - bash
             - -c    
             - |
-              kubectl delete csv `kubectl get subscription kubernetes-imagepuller-operator -n openshift-operators -o jsonpath='{$.status.installedCSV}'`
+              csv=`kubectl get subscription kubernetes-imagepuller-operator -n openshift-operators -o jsonpath='{$.status.installedCSV}'`
+              kubectl delete subscription kubernetes-imagepuller-operator -n openshift-operators
+              kubectl delete csv $csv
