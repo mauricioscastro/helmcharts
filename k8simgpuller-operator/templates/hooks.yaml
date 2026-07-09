@@ -15,7 +15,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - name: check-devspaces-operator
+        - name: delete-k8simgpuller-operator
           image: quay.io/zcve/bashkc
           command:
             - bash

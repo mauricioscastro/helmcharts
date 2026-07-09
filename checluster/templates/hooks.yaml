@@ -19,6 +19,6 @@ spec:
             - bash
             - -c    
             - |
-              kubectl -n openshift-operators wait deployment/devspaces-operator --for=condition=Available --timeout=600s && \
-              kubectl -n openshift-operators wait deployment/devworkspace-controller-manager --for=condition=Progressing --timeout=600s && \
-              kubectl -n openshift-operators wait deployment/devworkspace-webhook-server --for=condition=Available --timeout=600s
+              kubectl -n openshift-operators wait deployment/devspaces-operator --for=condition=Available --timeout=200s && \
+              kubectl -n openshift-operators wait deployment/devworkspace-controller-manager --for=condition=Progressing --timeout=120s && \
+              kubectl -n openshift-operators wait deployment/devworkspace-webhook-server --for=condition=Available --timeout=60s
