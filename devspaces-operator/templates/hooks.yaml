@@ -25,4 +25,12 @@ spec:
               kubectl delete --ignore-not-found=true csv `kubectl get csv --no-headers -o custom-columns=NAME:.metadata.name | grep -e devspacesoperator -e devworkspace-operator` -n openshift-operators
               kubectl delete --ignore-not-found=true deployment devworkspace-webhook-server -n openshift-operators
               kubectl delete --ignore-not-found=true service devworkspace-webhookserver -n openshift-operators
-              
+              sleep 3
+              for crd in devworkspaces.workspace.devfile.io devworkspacetemplates.workspace.devfile.io devworkspaceroutings.controller.devfile.io devworkspaceoperatorconfigs.controller.devfile.io; do
+                kubectl get $crd -A --no-headers -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace | while read name ns; do 
+                  kubectl delete --ignore-not-found=true $crd $name -n $ns
+                done
+              done
+              for crd in devworkspaces.workspace.devfile.io devworkspacetemplates.workspace.devfile.io devworkspaceroutings.controller.devfile.io devworkspaceoperatorconfigs.controller.devfile.io; do
+                kubectl delete --wait=false --ignore-not-found=true crd $crd
+              done

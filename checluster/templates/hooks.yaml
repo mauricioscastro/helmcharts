@@ -7,6 +7,8 @@ metadata:
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-weight": "5"
     "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}    
 spec:
   ttlSecondsAfterFinished: 60
   template:
@@ -22,3 +24,4 @@ spec:
               kubectl -n openshift-operators wait deployment/devspaces-operator --for=condition=Available --timeout=200s && \
               kubectl -n openshift-operators wait deployment/devworkspace-controller-manager --for=condition=Progressing --timeout=120s && \
               kubectl -n openshift-operators wait deployment/devworkspace-webhook-server --for=condition=Available --timeout=60s
+              sleep 5
