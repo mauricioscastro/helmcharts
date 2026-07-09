@@ -1,6 +1,0 @@
-dependencies:
-- name: devspaces
-  repository: https://charts.mscastro.net
-  version: 0.1.2
-digest: sha256:611113ec7e7c45ada5736b281e10fbe771be0664264ba7b155b189b19b9816f7
-generated: "2026-07-07T21:27:36.74200959-03:00"

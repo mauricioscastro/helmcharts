@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: remove-csv
+  name: wait-csv
   namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
@@ -21,4 +21,4 @@ spec:
             - bash
             - -c    
             - |
-              kubectl -n openshift-operators wait deployment/kubernetes-image-puller-operator-manager --for=condition=Available --timeout=600s
+              kubectl -n openshift-operators wait deployment/kubernetes-image-puller-operator-manager --for=condition=Available --timeout=200s

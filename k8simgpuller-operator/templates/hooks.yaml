@@ -21,4 +21,4 @@ spec:
             - bash
             - -c    
             - |
-              kubectl delete csv `kubectl get csv --no-headers -o custom-columns=NAME:.metadata.name | grep kubernetes-imagepuller-operator`
+              kubectl delete --ignore-not-found=true csv `kubectl get csv --no-headers -o custom-columns=NAME:.metadata.name | grep kubernetes-imagepuller-operator` -n openshift-operators
