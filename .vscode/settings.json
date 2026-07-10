@@ -1,0 +1,6 @@
+{
+  "yaml.disableSchemaDetection": [
+    "file:///home/macastro/development/certification/rhads/helm/devspaces-operator/templates/hooks.yaml",
+    "file:///home/macastro/development/certification/rhads/helm/k8simgpuller-operator/templates/role_binding.yaml"
+  ]
+}

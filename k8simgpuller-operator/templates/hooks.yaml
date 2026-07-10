@@ -1,6 +1,31 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  name: remove-k8simgpuller-crds
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: delete-k8simgpuller-operator
+          image: quay.io/zcve/bashkc
+          command:
+            - bash
+            - -c    
+            - |
+              kubectl delete crd kubernetesimagepullers.che.eclipse.org
+---              
+apiVersion: batch/v1
+kind: Job
+metadata:
   name: remove-k8simgpuller-csv
   namespace: {{ .Release.Namespace }}
   annotations:
@@ -22,4 +47,4 @@ spec:
             - -c    
             - |
               kubectl delete --ignore-not-found=true csv `kubectl get csv --no-headers -o custom-columns=NAME:.metadata.name | grep kubernetes-imagepuller-operator` -n openshift-operators
-              kubectl delete crd kubernetesimagepullers.che.eclipse.org
+

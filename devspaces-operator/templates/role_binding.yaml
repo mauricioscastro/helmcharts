@@ -46,7 +46,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: devspaces
+  namespace: {{ .Release.Namespace }}
 ---
 # ClusterRoleBinding: same permissions cluster-wide
 apiVersion: rbac.authorization.k8s.io/v1
@@ -62,4 +62,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: devspaces
+  namespace: {{ .Release.Namespace }}

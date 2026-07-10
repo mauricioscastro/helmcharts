@@ -1,6 +1,38 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  name: remove-devspaces-operator-crds
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: delete-devspaces-operator
+          image: quay.io/zcve/bashkc
+          command:
+            - bash
+            - -c    
+            - |
+              for crd in devworkspaces.workspace.devfile.io devworkspacetemplates.workspace.devfile.io devworkspaceroutings.controller.devfile.io devworkspaceoperatorconfigs.controller.devfile.io; do
+                kubectl get $crd -A --no-headers -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace | while read name ns; do 
+                  kubectl delete --ignore-not-found=true $crd $name -n $ns
+                done
+              done
+              for crd in devworkspaces.workspace.devfile.io devworkspacetemplates.workspace.devfile.io devworkspaceroutings.controller.devfile.io devworkspaceoperatorconfigs.controller.devfile.io; do
+                kubectl delete --wait=false --ignore-not-found=true crd $crd
+              done
+---              
+apiVersion: batch/v1
+kind: Job
+metadata:
   name: remove-devspaces-operator-csv
   namespace: {{ .Release.Namespace }}
   annotations:
@@ -25,12 +57,3 @@ spec:
               kubectl delete --ignore-not-found=true csv `kubectl get csv --no-headers -o custom-columns=NAME:.metadata.name | grep -e devspacesoperator -e devworkspace-operator` -n openshift-operators
               kubectl delete --ignore-not-found=true deployment devworkspace-webhook-server -n openshift-operators
               kubectl delete --ignore-not-found=true service devworkspace-webhookserver -n openshift-operators
-              sleep 3
-              for crd in devworkspaces.workspace.devfile.io devworkspacetemplates.workspace.devfile.io devworkspaceroutings.controller.devfile.io devworkspaceoperatorconfigs.controller.devfile.io; do
-                kubectl get $crd -A --no-headers -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace | while read name ns; do 
-                  kubectl delete --ignore-not-found=true $crd $name -n $ns
-                done
-              done
-              for crd in devworkspaces.workspace.devfile.io devworkspacetemplates.workspace.devfile.io devworkspaceroutings.controller.devfile.io devworkspaceoperatorconfigs.controller.devfile.io; do
-                kubectl delete --wait=false --ignore-not-found=true crd $crd
-              done

@@ -18,7 +18,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: k8simgpuller-operator-deleter
-
   labels:
     {{- include "helm.labels" . | nindent 4 }}  
 rules:
@@ -43,11 +42,11 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: operator-deleter
+  name: k8simgpuller-operator-deleter
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: devspaces
+  namespace: {{ .Release.Namespace }}
 ---
 # ClusterRoleBinding: same permissions cluster-wide
 apiVersion: rbac.authorization.k8s.io/v1
@@ -59,8 +58,8 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: operator-deleter
+  name: k8simgpuller-operator-deleter
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: devspaces
+  namespace: {{ .Release.Namespace }}
