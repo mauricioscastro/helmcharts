@@ -22,3 +22,4 @@ spec:
             - -c    
             - |
               kubectl delete --ignore-not-found=true csv `kubectl get csv --no-headers -o custom-columns=NAME:.metadata.name | grep kubernetes-imagepuller-operator` -n openshift-operators
+              kubectl delete crd kubernetesimagepullers.che.eclipse.org
