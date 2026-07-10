@@ -1,1 +1,1 @@
-## Kubernetes Image Puller
+## Kubernetes Image Puller Operator
