@@ -1,0 +1,31 @@
+repositories:
+  - name: mscastro  
+    url: https://charts.mscastro.net
+
+releases:
+  - name: k8simgpuller-operator
+    namespace: devspaces
+    createNamespace: true
+    chart: mscastro/k8simgpuller-operator
+
+  - name: k8simgpuller
+    namespace: devspaces
+    createNamespace: true
+    chart: mscastro/k8simgpuller
+    needs: 
+      - k8simgpuller-operator
+    disableValidation: true
+
+  - name: devspaces-operator
+    namespace: devspaces
+    createNamespace: true
+    chart: mscastro/devspaces-operator
+
+  - name: devspaces
+    namespace: devspaces
+    createNamespace: true
+    chart: mscastro/checluster
+    needs: 
+      - devspaces-operator
+      - k8simgpuller
+    disableValidation: true 
