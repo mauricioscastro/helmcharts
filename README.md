@@ -1,5 +1,9 @@
 [glauth](./glauth/README.md)
-[k8s image puller operator](./k8simgpuller-operator/README.md))
+
+[k8s image puller operator](./k8simgpuller-operator/README.md)
+
 [k8s image puller](./k8simgpuller/README.md)
+
 [dev spaces operator](./devspaces-operator/README.md)
+
 [che cluster](./checluster/README.md)

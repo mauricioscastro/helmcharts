@@ -13,19 +13,18 @@ releases:
     createNamespace: true
     chart: mscastro/k8simgpuller
     needs: 
-      - k8simgpuller-operator
-    #disableValidation: true
+      - devspaces/k8simgpuller-operator
 
   - name: devspaces-operator
     namespace: devspaces
     createNamespace: true
     chart: mscastro/devspaces-operator
+    wait: true
 
   - name: devspaces
     namespace: devspaces
     createNamespace: true
     chart: mscastro/checluster
     needs: 
-      - k8simgpuller
-      - devspaces-operator
-    #disableValidation: true 
+      - devspaces/k8simgpuller
+      - devspaces/devspaces-operator
