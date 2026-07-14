@@ -1,0 +1,17 @@
+repositories:
+  - name: mscastro  
+    url: https://charts.mscastro.net
+
+releases:
+  - name: glauth
+    namespace: auth
+    createNamespace: true
+    chart: mscastro/glauth
+    wait: true
+
+  - name: authelia
+    namespace: auth
+    createNamespace: true
+    chart: mscastro/authelia
+    needs: 
+      - auth/glauth

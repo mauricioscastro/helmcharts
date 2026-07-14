@@ -7,11 +7,14 @@ releases:
     namespace: devspaces
     createNamespace: true
     chart: mscastro/k8simgpuller-operator
+    wait: true
+    waitForJobs: true
 
   - name: k8simgpuller
     namespace: devspaces
     createNamespace: true
     chart: mscastro/k8simgpuller
     needs: 
-      - k8simgpuller-operator
-    disableValidation: true
+      - devspaces/k8simgpuller-operator
+    wait: true
+    waitForJobs: true      

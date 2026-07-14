@@ -1,0 +1,11 @@
+{{- if .Values.route }}
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: authelia
+  namespace: {{ .Release.Namespace }}
+spec:
+  host: {{ .Values.authelia_host_name }}.{{ .Values.domain }}
+  {{- .Values.route | toYaml | nindent 2 }}
+{{- end }}
+

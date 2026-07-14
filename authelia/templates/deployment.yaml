@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authelia
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: authelia
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authelia
+  template:
+    metadata:
+      labels:
+        app: authelia
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: authelia
+          image: ghcr.io/authelia/authelia
+          ports:
+            - containerPort: 9091
+          volumeMounts:
+            - name: authelia-config-volume
+              mountPath: /config
+        - name: nginx
+          image: registry.access.redhat.com/hi/nginx
+          ports:
+            - containerPort: 9081       
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/conf.d             
+      volumes:
+        - name: authelia-config-volume
+          configMap:
+            name: authelia-config
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config       
