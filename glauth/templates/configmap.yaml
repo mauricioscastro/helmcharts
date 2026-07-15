@@ -35,11 +35,11 @@ data:
     PruneSourceTableEvery = 600
     PruneSourcesOlderThan = 600
 
-    {{ dict "users" .Values.config.users | nindent 4 }}
+    {{ .Values.config.users | nindent 4 }}
     {{- if .Values.config.extra_users }}
-      {{- dict "users" .Values.config.extra_users | nindent 4 }}
+      {{- .Values.config.extra_users | nindent 4 }}
     {{- end }}
-    {{- dict "groups" .Values.config.groups | nindent 4 }}
+    {{- .Values.config.groups | nindent 4 }}
     {{- if .Values.config.extra_groups }}
-      {{- dict "groups" .Values.config.extra_groups | nindent 4 }}
+      {{- .Values.config.extra_groups | nindent 4 }}
     {{- end }}
