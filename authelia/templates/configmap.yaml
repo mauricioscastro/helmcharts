@@ -44,7 +44,7 @@ data:
       cookies:
       - name: 'authelia_session'
         domain: "{{ .Values.domain }}"
-        authelia_url: https://{{ .Values.authelia_host_name }}.{{ .Values.domain }}"
+        authelia_url: https://{{ .Values.authelia_host_name }}.{{ .Values.domain }}
 
     storage:
       encryption_key: 'ZB5J2RVWAVNqy4lapPeJUY5W61BcdjTRZZBcenlokecpBw5OYY2kbHzzFWWg04tZ'
