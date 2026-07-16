@@ -13,20 +13,24 @@ authentication_backend:
     users_filter: (&({username_attribute}={input})(objectClass=posixAccount))
     groups_filter: (&(uniqueMember={dn})(objectClass=posixGroup))
 
+idp:
+  jwks:
+    pkfile: '' # > authelia crypto pair rsa generate --> path of private.pem generated
+
 clients:
   developer_hub:
-    client_secret: $pbkdf2-sha512$310000$dnM5jLQcosHJWJDIitGB5A$Phb4GuHZZUVIK6BHxlkkHmW57GFiuQdHjYyJzH/cpUlWquYTPS3wgFkhfmgje2fkenr5KQVbWwc0EgwpBot97A # BrxaCt70att-zRlXsGMMJh5KFAW3GxkL6ABzUQS6Y7S_glJGsQpZsFDMVoDZrSrxsTNhdkto
+    client_secret: '' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
     redirect_uris:
       - https://{{ .Values.devhub_host_name }}.{{ .Values.domain }}/api/auth/oidc/handler/frame
 
   trusted_profile_analyser:
-    client_secret: $pbkdf2-sha512$310000$dnM5jLQcosHJWJDIitGB5A$Phb4GuHZZUVIK6BHxlkkHmW57GFiuQdHjYyJzH/cpUlWquYTPS3wgFkhfmgje2fkenr5KQVbWwc0EgwpBot97A # BrxaCt70att-zRlXsGMMJh5KFAW3GxkL6ABzUQS6Y7S_glJGsQpZsFDMVoDZrSrxsTNhdkto
+    client_secret: '' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
     redirect_uris:
       - 'https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}'
       - 'https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}/*'
 
   trusted_artifact_signer:
-    client_secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
+    client_secret: # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
 
 route:
   to:

@@ -20,7 +20,6 @@ data:
 
     identity_validation:
       reset_password:
-        # authelia crypto rand --length 64 --charset alphanumeric
         jwt_secret: 'ZB5J2RVWAVNqy4lapPeJUY5W61BcdjTRZZBcenlokecpBw5OYY2kbHzzFWWg04tZ'
 
     # Authentication backend using a file-based user database
@@ -73,35 +72,8 @@ data:
           - key_id: 'authelia-rsa-key'
             algorithm: 'RS256'
             use: 'sig'
-            key: |
-              -----BEGIN PRIVATE KEY-----
-              MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCRcKtXPczgd1E+
-              VYOptTyRzSmYLSRIqPSnIer0yffiqXnDr8cZlVSueKzSs7LyXTHywc5PHtCKjuOE
-              QialKplrDK15YTxqmwkpomIWT9gHkNgPBeieaE2PZ1yNeBRylMHUXOcKiY2F1wVB
-              gr4hnJt7Iy+xNOsgzaFKfXCgNPEOl5aH02VxyJa5UEeANcth7k92eYa+1mLXGVE1
-              88ECCXTobzVxiNNKJHKEhzE3vVZoqyq8s98v8hjeWBxZbai0NnNRKYRP14BGSKU3
-              rRT8b5QbkHnSUrNj9K7nqH1+Tc8bWZRHwJcW0FCbZyPKqyjTKUg7CGfnRgUEWh00
-              BwwlHl/3AgMBAAECggEAPEE5A0ZbzH0yYAhOqW8oHmGow16kYyP4ZAvFy0+njrTW
-              +Q8ohf1bnYLqWsrPLuEUcfYAMsBZ9qWXNfKwDwqUkAirEBgMT0BW7fRT/dlrb0r/
-              cE3q30HoLCrO6d9fXU8q9H/eyntNci8wgsEXY1Z+BeiAeEKrzSXUFkfc8sqsOfZM
-              YGH+SqBj/yOrQv0thS/ORD/sZTaVpbt6olcOuecPvrAZjpGeluKAcLnXSEm+S6vM
-              nDZy+6LnKcxF4qha9O/PBg1JsCn4by+bjS1poWMt+1NxHg+ZnPuzQmUG3OTZFLM+
-              5Z7eFeRx7vp57SfJtiqKxfbH+hjgfdg1TWIz0/l15QKBgQDM0AoH1YWi4cxeYNYP
-              wFk/hYEGNbizutor7rC8XieVL5zhZeOIt1FnBNr3M9ceCu3NVU32wLRz4HmkQDoe
-              7TCBZwCQV4EeaLTxNeDNbfh8SeNEHuQEaohCeHlHwy020HD3CnM1c0+9NgvSY5Iv
-              rYDNimp0RCyDjOoKdwXLfN34YwKBgQC1yfYd5BT940HLLj0aCAe1oQ/NrwOpl3VG
-              vfmmJu1pwQQ41nZNcJVqqys5ibH9YvK2vB403J0FanQt1vHHCqR5BKC1MyRYChuU
-              sl4E0qsp4SKuUhb1V/08G3S5b04xFQ3joTgYLZ3Qv5bLWccVJBcwr1ks7lYaM+O7
-              bvu+iVeMXQKBgQCBv/H60IweiglcaOBzjhl8ImmAs5vVULRSTJ5uVv+ghU9Pg6rH
-              u8q4Bt1o6dCH2ciY4kfH4IDxP+4P3hhz6zNlZwl2Z9kGmLK4dLd7rQVUR8LQLvmo
-              yoyT/5plmgIUzawi9N3TqL+FUK3glO/RgIsuq1eRXHcOx8Ck7I4hQXOlnQKBgCg5
-              5pI6tEJyFU8GjlLCUCJq33peLetLLpJW23Vey85I/cwt+MOuFAIkmk4DIDW3vYme
-              GvkLkFtwcQDrvViUDE0TLxSpmnM42V2QEqnyjBmaTfhRBe+IZur0EGIwNRc7V3V1
-              aVpATdmxa4bX+Ou+rrsBMjR1EOx/avdA2cgR0COpAoGAZQCoO7PBDgb8WW+zqSK6
-              rK7TWaQHOCsAkdEZdyfUrmNrHACe3sVl/dbtRnCkXskTF4D1i1LlIoBZm/2LZ0iq
-              pl4OvNuhESbjym8qA3YXYs4hcSDU1hHALCFNN/8/HuW9pAUs6jn2sVdIyjQd1DBI
-              giEq4pHITGGQm7/Qv3l4suQ=
-              -----END PRIVATE KEY-----
+            key: |-
+              {{- .Files.Get .Values.idp.jwks.pkfile | nindent 14 }}
         claims_policies:
           trustify_policy:
             access_token:
