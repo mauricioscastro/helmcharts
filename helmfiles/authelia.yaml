@@ -15,3 +15,14 @@ releases:
     chart: mscastro/authelia
     needs: 
       - auth/glauth
+    values:
+      - clients:
+          developer_hub:
+            client_secret: "{{ requiredEnv HF_DEVHUB_CLIENT_SECRET | quote }}" # HF_DEVHUB_CLIENT_SECRET=`authelia crypto hash generate pbkdf2 --variant sha512 --password '?'` 
+          trusted_profile_analyser:
+            client_secret: "{{ requiredEnv HF_TPA_CLIENT_SECRET | quote }}" # HF_TPA_CLIENT_SECRET=`authelia crypto hash generate pbkdf2 --variant sha512 --password '?'` 
+          trusted_artifact_signer:
+            client_secret: "{{ requiredEnv HF_TAS_CLIENT_SECRET | quote }}" # HF_TPA_CLIENT_SECRET=`authelia crypto hash generate pbkdf2 --variant sha512 --password '?'` 
+        idp:
+          jwks:
+            pkfile: "{{ requiredEnv HF_IDP_JWKS_PKFILE }}" # > authelia crypto pair rsa generate --> path of private.pem generated
