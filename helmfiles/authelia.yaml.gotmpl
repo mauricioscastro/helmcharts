@@ -32,4 +32,17 @@ releases:
     values:
       - idp:
           jwks:
-            pkfile: {{ exec  }}
+            pkfile: {{ readFile "/tmp/authelia-jwks-pk.pem" | quote }}
+        identity_validation:
+          secret: {{ exec "authelia" (list "crypto" "rand")  | trim | quote }}
+        session:
+          secret: {{ exec "authelia" (list "crypto" "rand")  |  trim | quote }}
+        storage:
+          secret: {{ exec "authelia" (list "crypto" "rand")  | trim | quote }}
+        clients:
+          developer_hub:
+            client_secret: {{ exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "devhub")  | trim | quote }}
+          trusted_profile_analyser:
+            client_secret: {{ exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "tpa")  | trim | quote }}
+          trusted_artifact_signer:
+            client_secret: {{ exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "tas")  | trim | quote }}
