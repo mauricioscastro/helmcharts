@@ -19,6 +19,9 @@ spec:
       containers:
         - name: authelia
           image: ghcr.io/authelia/authelia
+          env:
+          - name: X_AUTHELIA_CONFIG_FILTERS
+            value: template
           ports:
             - containerPort: 9091
           volumeMounts:

@@ -1,0 +1,35 @@
+repositories:
+  - name: mscastro  
+    url: https://charts.mscastro.net
+
+hooks:
+- events:
+  - prepare
+  command: "authelia"
+  args:
+  - crypto 
+  - pair 
+  - rsa 
+  - generate 
+  - -d 
+  - /tmp 
+  - --file.private-key 
+  - authelia-jwks-pk.pem
+
+releases:
+  - name: glauth
+    namespace: auth
+    createNamespace: true
+    chart: mscastro/glauth
+    wait: true
+
+  - name: authelia
+    namespace: auth
+    createNamespace: true
+    chart: mscastro/authelia
+    needs: 
+      - auth/glauth
+    values:
+      - idp:
+          jwks:
+            pkfile: {{ exec  }}

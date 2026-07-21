@@ -1,4 +1,4 @@
-domain: apps.rmohbjxeoac4904b59.westus.aroapp.io
+domain: apps.xxx.westus.io
 authelia_host_name: authelia
 devhub_host_name: backstage-rhdh-rhdh
 tpa_host_name: server-tpa
@@ -13,6 +13,16 @@ authentication_backend:
     users_filter: (&({username_attribute}={input})(objectClass=posixAccount))
     groups_filter: (&(uniqueMember={dn})(objectClass=posixGroup))
 
+identity_validation:
+  secret: '' # > authelia crypto rand
+
+session:
+  secret: '' # > authelia crypto rand
+
+storage:
+  secret: '' # > authelia crypto rand
+
+# private key of a rsa pair, can be generated with openssl  or authelia 
 idp:
   jwks:
     pkfile: '' # > authelia crypto pair rsa generate --> path of private.pem generated
@@ -30,7 +40,7 @@ clients:
       - 'https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}/*'
 
   trusted_artifact_signer:
-    client_secret: # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
+    client_secret: '' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
 
 route:
   to:

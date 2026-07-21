@@ -20,7 +20,7 @@ data:
 
     identity_validation:
       reset_password:
-        jwt_secret: 'ZB5J2RVWAVNqy4lapPeJUY5W61BcdjTRZZBcenlokecpBw5OYY2kbHzzFWWg04tZ'
+        jwt_secret: {{ regexReplaceAll "Random Value: (.*)" .Values.identity_validation.secret "$1" }}
 
     # Authentication backend using a file-based user database
     authentication_backend:
@@ -37,7 +37,7 @@ data:
 
     # Session settings
     session:
-      secret: 'ZB5J2RVWAVNqy4lapPeJUY5W61BcdjTRZZBcenlokecpBw5OYY2kbHzzFWWg04tZ' 
+      secret: {{ regexReplaceAll "Random Value: (.*)" .Values.session.secret "$1" }}
       name: "authelia_session"
       remember_me: -1
       cookies:
@@ -46,7 +46,7 @@ data:
         authelia_url: https://{{ .Values.authelia_host_name }}.{{ .Values.domain }}
 
     storage:
-      encryption_key: 'ZB5J2RVWAVNqy4lapPeJUY5W61BcdjTRZZBcenlokecpBw5OYY2kbHzzFWWg04tZ'
+      encryption_key: {{ regexReplaceAll "Random Value: (.*)" .Values.storage.secret "$1" }}
       local:
         path: '/tmp/db.sqlite3'
 
@@ -73,7 +73,7 @@ data:
             algorithm: 'RS256'
             use: 'sig'
             key: |-
-              {{- .Files.Get .Values.idp.jwks.pkfile | nindent 14 }}
+              {{- .Values.idp.jwks.pkfile | nindent 14 }}
         claims_policies:
           trustify_policy:
             access_token:
@@ -94,7 +94,7 @@ data:
         clients:
           - client_id: devhub
             client_name: devhub
-            client_secret: {{ .Values.clients.developer_hub.client_secret }}
+            client_secret: {{ regexReplaceAll "Digest: (.*)" .Values.clients.developer_hub.client_secret "$1" }}
             authorization_policy: one_factor
             consent_mode: implicit
             public: false
@@ -115,7 +115,7 @@ data:
 
           - client_id: rhtpa-cli
             client_name: rhtpa-cli
-            client_secret: {{ .Values.clients.trusted_profile_analyser.client_secret }}
+            client_secret: {{ regexReplaceAll "Digest: (.*)"  .Values.clients.trusted_profile_analyser.client_secret "$1" }}
             authorization_policy: one_factor
             consent_mode: implicit
             public: false
@@ -176,7 +176,7 @@ data:
 
           - client_id: trusted-artifact-signer
             client_name: trusted-artifact-signer
-            client_secret: {{ .Values.clients.trusted_artifact_signer.client_secret }}
+            client_secret: {{ regexReplaceAll "Digest: (.*)" .Values.clients.trusted_artifact_signer.client_secret "$1" }}
             public: false
             authorization_policy: one_factor
             consent_mode: implicit
@@ -188,17 +188,7 @@ data:
             grant_types:
               - 'urn:ietf:params:oauth:grant-type:device_code'
             token_endpoint_auth_method: 'client_secret_post'  
-            access_token_signed_response_alg: 'RS256'      
-  users.yml: |
-    users:
-      svc:
-        disabled: false
-        displayname: 'Service Account'
-        password: '$argon2id$v=19$m=65536,t=3,p=2$BpLnfgDsc2WD8F2q$o/vzA4myCqZZ36bUGsDY//8mKUYNZZaR0t4MFFSs+iM' # digest for 'password'
-        email: 'svc@example.com'
-        groups:
-          - 'example'
-          - 'service' 
+            access_token_signed_response_alg: 'RS256'    
 ---
 kind: ConfigMap
 apiVersion: v1
