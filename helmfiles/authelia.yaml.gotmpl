@@ -1,3 +1,10 @@
+environments:
+  default:
+    values:
+    - jwks_pkdir: /tmp
+    - jwks_pkfile: authelia-jwks-pk.pem
+      
+---
 repositories:
   - name: mscastro  
     url: https://charts.mscastro.net
@@ -12,9 +19,9 @@ hooks:
   - rsa 
   - generate 
   - -d 
-  - /tmp 
+  - {{ .Environment.Values.jwks_pkdir }}
   - --file.private-key 
-  - authelia-jwks-pk.pem
+  - {{ .Environment.Values.jwks_pkfile }}
 
 releases:
   - name: glauth
@@ -32,17 +39,17 @@ releases:
     values:
       - idp:
           jwks:
-            pkfile: {{ readFile "/tmp/authelia-jwks-pk.pem" | quote }}
+            pkfile: {{ readFile (env "HF_JWKS_PK" | default (printf "%s/%s" .Environment.Values.jwks_pkdir .Environment.Values.jwks_pkfile)) | quote }}
         identity_validation:
-          secret: {{ exec "authelia" (list "crypto" "rand")  | trim | quote }}
+          secret: {{ env "HF_IDENTITY_VALIDATION_SECRET" | default (exec "authelia" (list "crypto" "rand")  | trim | quote) }}
         session:
-          secret: {{ exec "authelia" (list "crypto" "rand")  |  trim | quote }}
+          secret: {{ env "HF_SESSION_SECRET" | default (exec "authelia" (list "crypto" "rand")  |  trim | quote) }}
         storage:
-          secret: {{ exec "authelia" (list "crypto" "rand")  | trim | quote }}
+          secret: {{ env "HF_STORAGE_SECRET" | default (exec "authelia" (list "crypto" "rand")  | trim | quote) }}
         clients:
           developer_hub:
-            client_secret: {{ exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "devhub")  | trim | quote }}
+            client_secret: {{ env "HF_DEVHUB_CLIENT_SECRET" | default (exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "devhub")  | trim | quote) }}
           trusted_profile_analyser:
-            client_secret: {{ exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "tpa")  | trim | quote }}
+            client_secret: {{ env "HF_TPA_CLIENT_SECRET" | default (exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "tpa")  | trim | quote) }}
           trusted_artifact_signer:
-            client_secret: {{ exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "tas")  | trim | quote }}
+            client_secret: {{ env "HF_TAS_CLIENT_SECRET" | default (exec "authelia" (list "crypto" "hash" "generate" "pbkdf2" "--variant" "sha512" "--password" "tas")  | trim | quote) }}
