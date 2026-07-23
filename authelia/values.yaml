@@ -64,4 +64,4 @@ route:
       insecureEdgeTerminationPolicy: Redirect
 
 nginx_sub_filter:
-  end_session_endpoint: https://{{ .Values.authelia_host_name }}.{{ .Values.domain }}/logout?rd=https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}
+  end_session_endpoint: https://{{ .Values.tpa_auth_host_name }}.{{ .Values.domain }}/logout?rd=https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}
