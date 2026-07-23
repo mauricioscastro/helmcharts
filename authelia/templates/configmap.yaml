@@ -37,16 +37,11 @@ data:
 
     # Session settings
     session:
-      secret: {{ regexReplaceAll "Random Value: (.*)" .Values.session.secret "$1" }}
       name: "authelia_session"
+      secret: {{ regexReplaceAll "Random Value: (.*)" .Values.session.secret "$1" }}
+      domain: "{{ .Values.domain }}"
       remember_me: -1
-      cookies:
-      - name: 'authelia_session'
-        domain: "{{ .Values.domain }}"
-        authelia_url: https://{{ .Values.authelia_host_name }}.{{ .Values.domain }}
-      - name: 'tpa_authelia_session'
-        domain: "{{ .Values.domain }}"
-        authelia_url: https://{{ .Values.tpa_auth_host_name }}.{{ .Values.domain }}        
+      
 
     storage:
       encryption_key: {{ regexReplaceAll "Random Value: (.*)" .Values.storage.secret "$1" }}
