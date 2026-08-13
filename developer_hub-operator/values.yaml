@@ -1,0 +1,7 @@
+
+channel: fast
+installPlanApproval: Automatic
+name: rhdh
+source: redhat-operators
+sourceNamespace: openshift-marketplace
+startingCSV: rhdh-operator.1.10.2

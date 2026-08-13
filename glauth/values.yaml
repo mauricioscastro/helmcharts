@@ -92,19 +92,19 @@ config:
     gidnumber = 5555
 
     [[groups]]
-    name = "rhtpadr"
+    name = "rhtpadr" # trusted profile analyser document reader 
     gidnumber = 6000
 
     [[groups]]
-    name = "rhtpadw"
+    name = "rhtpadw" # trusted profile analyser document writer 
     gidnumber = 6001
 
     [[groups]]
-    name = "rhtpadu"
+    name = "rhtpadu" # trusted profile analyser document updater 
     gidnumber = 6002
 
     [[groups]]
-    name = "rhtpadd"
+    name = "rhtpadd" # trusted profile analyser document deleter 
     gidnumber = 6003 
 
   extra_users: |-

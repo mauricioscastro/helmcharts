@@ -42,7 +42,7 @@ releases:
         identity_validation:
           secret: {{ env "HF_IDENTITY_VALIDATION_SECRET" | default (exec "authelia" (list "crypto" "rand")  | trim | quote) }}
         session:
-          secret: {{ env "HF_SESSION_SECRET" | default (exec "authelia" (list "crypto" "rand")  |  trim | quote) }}
+          secret: {{ env "HF_SESSION_SECRET" | default (exec "authelia" (list "crypto" "rand")  | trim | quote) }}
         storage:
           secret: {{ env "HF_STORAGE_SECRET" | default (exec "authelia" (list "crypto" "rand")  | trim | quote) }}
         clients:
