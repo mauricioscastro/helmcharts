@@ -7,6 +7,5 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANMAAAD0CAYAAAABrhNXAAAABGdB
 dependencies:
   - name: k8simgpuller-operator
     version: 0.1.0
-    # repository: https://charts.mscastro.net
-    repository: "file://../k8simgpuller-operator"
-    condition: remote.k8simgpuller-operator.enabled
+    repository: https://charts.mscastro.net
+
