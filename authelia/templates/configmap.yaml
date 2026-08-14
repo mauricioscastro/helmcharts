@@ -20,14 +20,14 @@ data:
 
     identity_validation:
       reset_password:
-        jwt_secret: {{ secret "/secrets/jwt" }}
+        jwt_secret: {{`{{ secret "/secrets/jwt" }}`}}
 
     # Authentication backend using a file-based user database
     authentication_backend:
       # file:
       #   path: /config/users.yml
       {{- tpl (.Values.authentication_backend) . | toYaml | nindent 6 }}
-      {{- secret "/secrets/ldap_passwd" | nindent 6 }}
+      {{`{{- secret "/secrets/ldap_passwd" | nindent 6 }}`}}
 
     # Access control rules
     access_control:
