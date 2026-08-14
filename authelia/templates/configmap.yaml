@@ -39,12 +39,12 @@ data:
     # Session settings
     session:
       name: "authelia_session"
-      secret: {{ secret "/secrets/session" }}
+      secret: {{`{{ secret "/secrets/session" }}`}}
       domain: "{{ .Values.domain }}"
       remember_me: -1
 
     storage:
-      encryption_key: {{ secret "/secrets/storage" }}
+      encryption_key: {{`{{ secret "/secrets/storage" }}`}}
       local:
         path: '/tmp/db.sqlite3'
 
@@ -71,7 +71,7 @@ data:
             algorithm: 'RS256'
             use: 'sig'
             key: |-
-              {{- secret "/secrets/jwkskey" | nindent 14 }}
+              {{`{{- secret "/secrets/jwkskey" | nindent 14 }}`}}
         claims_policies:
           trustify_policy:
             access_token:
@@ -92,7 +92,7 @@ data:
         clients:
           - client_id: devhub
             client_name: devhub
-            client_secret: {{ secret "/secrets/devhub" }}
+            client_secret: {{`{{ secret "/secrets/devhub" }}`}}
             authorization_policy: one_factor
             consent_mode: implicit
             public: false
@@ -113,7 +113,7 @@ data:
 
           - client_id: rhtpa-cli
             client_name: rhtpa-cli
-            client_secret: {{ secret "/secrets/rhtpacli" }}
+            client_secret: {{`{{ secret "/secrets/rhtpacli" }}`}}
             authorization_policy: one_factor
             consent_mode: implicit
             public: false
@@ -174,7 +174,7 @@ data:
 
           - client_id: trusted-artifact-signer
             client_name: trusted-artifact-signer
-            client_secret: {{ secret "/secrets/tas" }}
+            client_secret: {{`{{ secret "/secrets/tas" }}`}}
             public: false
             authorization_policy: one_factor
             consent_mode: implicit
