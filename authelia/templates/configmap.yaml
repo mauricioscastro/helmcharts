@@ -26,8 +26,8 @@ data:
     authentication_backend:
       # file:
       #   path: /config/users.yml
-      {{- tpl (.Values.authentication_backend) . | toYaml | nindent 6 }}
-      {{`{{- secret "/secrets/ldap_passwd" | nindent 6 }}`}}
+      {{- .Values.authentication_backend | toYaml | nindent 6 }}
+      
 
     # Access control rules
     access_control:

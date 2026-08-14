@@ -12,6 +12,7 @@ authentication_backend:
     user: "cn=redhat,cn=ssa,dc=latam,dc=redhat"
     users_filter: (&({username_attribute}={input})(objectClass=posixAccount))
     groups_filter: (&(uniqueMember={dn})(objectClass=posixGroup))
+    password: {{`{{- secret "/secrets/ldap_passwd" }}`}}
 
 ldap_passwd: ''
 
