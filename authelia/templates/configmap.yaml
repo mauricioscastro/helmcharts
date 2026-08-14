@@ -26,8 +26,14 @@ data:
     authentication_backend:
       # file:
       #   path: /config/users.yml
-      {{- .Values.authentication_backend | toYaml | nindent 6 }}
-      
+      ldap:
+        implementation: {{ .Values.authentication_backend.ldap.implementation }}
+        address: {{ .Values.authentication_backend.ldap.address }}
+        base_dn: {{ .Values.authentication_backend.ldap.base_dn }}
+        user: {{ .Values.authentication_backend.ldap.user }}
+        users_filter: {{ .Values.authentication_backend.ldap.users_filter }}
+        groups_filter: {{ .Values.authentication_backend.ldap.groups_filter }}
+        password: {{`{{- secret "/secrets/ldap_passwd" }}`}}
 
     # Access control rules
     access_control:
