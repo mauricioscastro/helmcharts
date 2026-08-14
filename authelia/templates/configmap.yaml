@@ -20,13 +20,14 @@ data:
 
     identity_validation:
       reset_password:
-        jwt_secret: {{ regexReplaceAll "Random Value: (.*)" .Values.identity_validation.secret "$1" }}
+        jwt_secret: {{ secret "/secrets/jwt" }}
 
     # Authentication backend using a file-based user database
     authentication_backend:
       # file:
       #   path: /config/users.yml
-      {{- .Values.authentication_backend | toYaml | nindent 6 }}
+      {{- tpl (.Values.authentication_backend) . | toYaml | nindent 6 }}
+      {{- secret "/secrets/ldap_passwd" | nindent 6 }}
 
     # Access control rules
     access_control:
@@ -38,13 +39,12 @@ data:
     # Session settings
     session:
       name: "authelia_session"
-      secret: {{ regexReplaceAll "Random Value: (.*)" .Values.session.secret "$1" }}
+      secret: {{ secret "/secrets/session" }}
       domain: "{{ .Values.domain }}"
       remember_me: -1
-      
 
     storage:
-      encryption_key: {{ regexReplaceAll "Random Value: (.*)" .Values.storage.secret "$1" }}
+      encryption_key: {{ secret "/secrets/storage" }}
       local:
         path: '/tmp/db.sqlite3'
 
@@ -71,7 +71,7 @@ data:
             algorithm: 'RS256'
             use: 'sig'
             key: |-
-              {{- .Values.idp.jwks.pkfile | nindent 14 }}
+              {{- secret "/secrets/jwkskey" | nindent 14 }}
         claims_policies:
           trustify_policy:
             access_token:
@@ -92,7 +92,7 @@ data:
         clients:
           - client_id: devhub
             client_name: devhub
-            client_secret: {{ regexReplaceAll "Digest: (.*)" .Values.clients.developer_hub.client_secret "$1" }}
+            client_secret: {{ secret "/secrets/devhub" }}
             authorization_policy: one_factor
             consent_mode: implicit
             public: false
@@ -113,7 +113,7 @@ data:
 
           - client_id: rhtpa-cli
             client_name: rhtpa-cli
-            client_secret: {{ regexReplaceAll "Digest: (.*)"  .Values.clients.trusted_profile_analyser.client_secret "$1" }}
+            client_secret: {{ secret "/secrets/rhtpacli" }}
             authorization_policy: one_factor
             consent_mode: implicit
             public: false
@@ -174,7 +174,7 @@ data:
 
           - client_id: trusted-artifact-signer
             client_name: trusted-artifact-signer
-            client_secret: {{ regexReplaceAll "Digest: (.*)" .Values.clients.trusted_artifact_signer.client_secret "$1" }}
+            client_secret: {{ secret "/secrets/tas" }}
             public: false
             authorization_policy: one_factor
             consent_mode: implicit

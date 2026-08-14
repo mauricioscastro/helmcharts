@@ -10,9 +10,10 @@ authentication_backend:
     address: "ldap://glauth"
     base_dn: "dc=latam,dc=redhat"
     user: "cn=redhat,cn=ssa,dc=latam,dc=redhat"
-    password: redhat
     users_filter: (&({username_attribute}={input})(objectClass=posixAccount))
     groups_filter: (&(uniqueMember={dn})(objectClass=posixGroup))
+
+ldap_passwd: ''
 
 identity_validation:
   secret: '' # > authelia crypto rand
@@ -65,3 +66,6 @@ route:
 
 nginx_sub_filter:
   end_session_endpoint: https://{{ .Values.tpa_auth_host_name }}.{{ .Values.domain }}/logout?rd=https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}
+
+create_secrets: true
+init_secrets: false

@@ -27,6 +27,9 @@ spec:
           volumeMounts:
             - name: authelia-config-volume
               mountPath: /config
+            - name: config-secrets
+              mountPath: /secrets
+              readOnly: true
         - name: nginx
           image: registry.access.redhat.com/hi/nginx
           ports:
@@ -41,3 +44,6 @@ spec:
         - name: nginx-config-volume
           configMap:
             name: nginx-config       
+        - name: config-secrets
+          secret:
+            secretName: authelia-secrets
