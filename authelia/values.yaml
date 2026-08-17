@@ -16,33 +16,33 @@ authentication_backend:
 ldap_passwd: ''
 
 identity_validation:
-  secret: '' # > authelia crypto rand
+  secret: 'x' # > authelia crypto rand
 
 session:
-  secret: '' # > authelia crypto rand
+  secret: 'x' # > authelia crypto rand
 
 storage:
-  secret: '' # > authelia crypto rand
+  secret: 'x' # > authelia crypto rand
 
 # private key of a rsa pair, can be generated with openssl  or authelia 
 idp:
   jwks:
-    pkfile: '' # > authelia crypto pair rsa generate --> path of private.pem generated
+    pkfile: 'x' # > authelia crypto pair rsa generate --> path of private.pem generated
 
 clients:
   developer_hub:
-    client_secret: '' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
+    client_secret: 'x' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
     redirect_uris:
       - https://{{ .Values.devhub_host_name }}.{{ .Values.domain }}/api/auth/oidc/handler/frame
 
   trusted_profile_analyser:
-    client_secret: '' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
+    client_secret: 'x' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
     redirect_uris:
       - 'https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}'
       - 'https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}/*'
 
   trusted_artifact_signer:
-    client_secret: '' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
+    client_secret: 'x' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
 
 route:
   default:
