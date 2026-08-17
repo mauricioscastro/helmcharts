@@ -1,6 +1,6 @@
 repositories:
   - name: mscastro  
-    url: https://charts.mscastro.net
+    url: {{ env "REPO_URL" | default "https://charts.mscastro.net" }}
 
 releases:
   - name: glauth
