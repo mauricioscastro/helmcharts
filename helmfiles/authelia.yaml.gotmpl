@@ -1,7 +1,7 @@
 repositories:
   - name: mscastro  
     url: {{ env "REPO_URL" | default "https://charts.mscastro.net" }}
-    {{- if env "REPO_URL" contains "http://" }}
+    {{- if (env "REPO_URL") contains "http://" }}
     plainHttp: true
     {{- end }}
 
