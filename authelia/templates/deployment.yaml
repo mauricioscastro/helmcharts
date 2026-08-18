@@ -16,6 +16,42 @@ spec:
         app: authelia
     spec:
       enableServiceLinks: false
+      {{- if .Values.init_secrets }}
+      initContainers:
+      - name: create-secrets
+        image: quay.io/zcve/authelia
+        env:
+          name: NS
+          value: {{ .Release.Namespace }}
+        command: ["bash", "-c"]
+        args:
+        - |
+          export AUTH_DEVHUB=`uuidgen`
+          export AUTH_RHTPACLI=`uuidgen`
+          export AUTH_TAS=`uuidgen`
+          authelia crypto pair rsa generate -d /tmp
+          kubectl -n $NS apply -f - <<EOF
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: authelia-secrets
+          type: Opaque
+          stringData:
+            ldap_passwd: redhat
+            jwt: $(authelia crypto rand)
+            session: $(authelia crypto rand)
+            storage: $(authelia crypto rand)
+            devhub: $(authelia crypto hash generate pbkdf2 --variant sha512 --password "$AUTH_DEVHUB")
+            rhtpacli: $(authelia crypto hash generate pbkdf2 --variant sha512 --password "$AUTH_RHTPACLI")
+            tas: $(authelia crypto hash generate pbkdf2 --variant sha512 --password "$AUTH_TAS")
+            jwkskey: |-
+          $(sed -e 's/^/    /g' /tmp/private.pem)
+          EOF
+          export | grep AUTH_ | cut -c 17- > /tmp/generated/secrets
+        volumeMounts:
+          - name: generated-secrets
+            mountPath: /tmp/generated        
+      {{ end }}
       containers:
         - name: authelia
           image: ghcr.io/authelia/authelia
@@ -30,6 +66,11 @@ spec:
             - name: config-secrets
               mountPath: /secrets
               readOnly: true
+            {{- if .Values.init_secrets }}
+            - name: generated-secrets
+              mountPath: /tmp/generated        
+              readOnly: true     
+            {{ end }} 
         - name: nginx
           image: registry.access.redhat.com/hi/nginx
           ports:
@@ -47,3 +88,7 @@ spec:
         - name: config-secrets
           secret:
             secretName: authelia-secrets
+        {{- if .Values.init_secrets }}
+        - name: generated-secrets
+          emptyDir: {}
+        {{ end }}
