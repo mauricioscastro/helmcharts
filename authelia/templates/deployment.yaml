@@ -51,7 +51,7 @@ spec:
         volumeMounts:
           - name: generated-secrets
             mountPath: /tmp/generated        
-      {{ end }}
+      {{- end }}
       containers:
         - name: authelia
           image: ghcr.io/authelia/authelia
@@ -70,7 +70,7 @@ spec:
             - name: generated-secrets
               mountPath: /tmp/generated        
               readOnly: true     
-            {{ end }} 
+            {{- end }} 
         - name: nginx
           image: registry.access.redhat.com/hi/nginx
           ports:
@@ -91,4 +91,4 @@ spec:
         {{- if .Values.init_secrets }}
         - name: generated-secrets
           emptyDir: {}
-        {{ end }}
+        {{- end }}
