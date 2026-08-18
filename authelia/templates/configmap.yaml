@@ -4,7 +4,7 @@ metadata:
   name: authelia-config
   namespace: {{ .Release.Namespace }}
   labels:
-    app: authelia  
+    {{- include "helm.labels" . | nindent 4 }} 
 data:
   configuration.yml: |
     server:

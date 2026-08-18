@@ -4,7 +4,7 @@ metadata:
   name: authelia
   namespace: {{ .Release.Namespace }}
   labels:
-    app: authelia
+    {{- include "helm.labels" . | nindent 4 }} 
 spec:
   replicas: 1
   selector:

@@ -4,6 +4,8 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: authelia-default
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}   
 spec:
   host: {{ .Values.authelia_host_name }}.{{ .Values.domain }}
   {{- .Values.route.default | toYaml | nindent 2 }}
@@ -15,6 +17,8 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: authelia-tpa
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}   
 spec:
   host: {{ .Values.tpa_auth_host_name }}.{{ .Values.domain }}
   {{- .Values.route.tpa | toYaml | nindent 2 }}
