@@ -67,4 +67,4 @@ route:
 nginx_sub_filter:
   end_session_endpoint: https://{{ .Values.tpa_auth_host_name }}.{{ .Values.domain }}/logout?rd=https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}
 
-init_secrets: true
+init_secrets: false
