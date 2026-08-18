@@ -46,11 +46,17 @@ spec:
             tas: $(authelia crypto hash generate pbkdf2 --variant sha512 --password "$AUTH_TAS")
             jwkskey: |-
           $(sed -e 's/^/    /g' /tmp/private.pem)
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: authelia-secrets-generated
+          type: Opaque
+          stringData:        
+            devhub: "$AUTH_DEVHUB"
+            rhtpacli: "$AUTH_RHTPACLI"
+            tas: "$AUTH_TAS"
           EOF
-          export | grep AUTH_ | cut -c 17- > /tmp/generated/secrets
-        volumeMounts:
-          - name: generated-secrets
-            mountPath: /tmp/generated        
       {{- end }}
       containers:
         - name: authelia
@@ -66,11 +72,6 @@ spec:
             - name: config-secrets
               mountPath: /secrets
               readOnly: true
-            {{- if .Values.init_secrets }}
-            - name: generated-secrets
-              mountPath: /tmp/generated        
-              readOnly: true     
-            {{- end }} 
         - name: nginx
           image: registry.access.redhat.com/hi/nginx
           ports:
@@ -88,7 +89,4 @@ spec:
         - name: config-secrets
           secret:
             secretName: authelia-secrets
-        {{- if .Values.init_secrets }}
-        - name: generated-secrets
-          emptyDir: {}
-        {{- end }}
+
