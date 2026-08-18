@@ -1,6 +1,9 @@
 repositories:
   - name: mscastro  
-    url: https://charts.mscastro.net
+    url: {{ env "REPO_URL" | default "https://charts.mscastro.net" }}
+    {{- if env "REPO_URL" | contains "http://" }}
+    plainHttp: true
+    {{- end }}
 
 releases:
   - name: k8simgpuller-operator
