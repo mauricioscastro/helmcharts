@@ -15,8 +15,8 @@ authentication_backend:
 
 ldap_passwd: ''
 
-identity_validation:
-  secret: '' # > authelia crypto rand
+# identity_validation:
+#   secret: '' # > authelia crypto rand
 
 session:
   secret: '' # > authelia crypto rand

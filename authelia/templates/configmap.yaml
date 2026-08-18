@@ -18,9 +18,9 @@ data:
       format: 'text' 
       keep_stdout: true      
 
-    identity_validation:
-      reset_password:
-        jwt_secret: {{`{{ secret "/secrets/jwt" }}`}}
+    # identity_validation:
+    #   reset_password:
+    #     jwt_secret: {{`{{ secret "/secrets/jwt" }}`}}
 
     # Authentication backend using a file-based user database
     authentication_backend:
@@ -44,8 +44,10 @@ data:
     session:
       name: "authelia_session"
       secret: {{`{{ secret "/secrets/session" }}`}}
-      domain: "{{ .Values.domain }}"
       remember_me: -1
+      cookies:
+      - domain: "{{ .Values.domain }}"
+        authelia_url: "https://{{ .Values.authelia_host_name }}.{{ .Values.domain }}"
 
     storage:
       encryption_key: {{`{{ secret "/secrets/storage" }}`}}

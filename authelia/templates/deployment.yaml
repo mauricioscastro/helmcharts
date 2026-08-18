@@ -38,7 +38,7 @@ spec:
           type: Opaque
           stringData:
             ldap_passwd: {{ .Values.ldap_passwd }}
-            jwt: "$(authelia crypto rand | cut -c 15-)"
+            # jwt: "$(authelia crypto rand | cut -c 15-)"
             session: "$(authelia crypto rand | cut -c 15-)"
             storage: "$(authelia crypto rand | cut -c 15-)"
             devhub: "$(authelia crypto hash generate pbkdf2 --variant sha512 --password $AUTH_DEVHUB  | cut -c 9-)"
