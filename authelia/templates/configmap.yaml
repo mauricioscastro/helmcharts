@@ -22,7 +22,7 @@ data:
     #   reset_password:
     #     jwt_secret: {{`{{ secret "/secrets/jwt" }}`}}
 
-    # Authentication backend using a file-based user database
+    # Authentication backend using ldap
     authentication_backend:
       password_reset:
         disable: true
