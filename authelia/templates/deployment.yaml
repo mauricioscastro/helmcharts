@@ -31,7 +31,7 @@ spec:
           export AUTH_RHTPACLI=`uuidgen` && \
           export AUTH_TAS=`uuidgen` && \
           authelia crypto pair rsa generate -d /tmp && \
-          kubectl -n $NS apply -f - <<EOF
+          kubectl -n $NS apply -f - <<EOF \
           apiVersion: v1
           kind: Secret
           metadata:
