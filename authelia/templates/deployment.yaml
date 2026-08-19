@@ -50,6 +50,18 @@ spec:
             tas: "$(authelia crypto hash generate pbkdf2 --variant sha512 --password $AUTH_TAS  | cut -c 9-)"
             jwkskey: |-
           $(sed -e 's/^/    /g' /tmp/private.pem)
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: authelia-secrets-generated
+            labels:
+              {{- include "helm.labels" . | nindent 14 }}            
+          type: Opaque
+          stringData:        
+            devhub: "$AUTH_DEVHUB"
+            rhtpacli: "$AUTH_RHTPACLI"
+            tas: "$AUTH_TAS"
           EOF
       {{- end }}
       containers:
