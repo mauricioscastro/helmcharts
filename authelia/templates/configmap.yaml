@@ -24,7 +24,9 @@ data:
 
     # Authentication backend using a file-based user database
     authentication_backend:
-      password_reset: 
+      password_reset:
+        disable: true
+      password_change:
         disable: true
       ldap:
         implementation: {{ .Values.authentication_backend.ldap.implementation }}
