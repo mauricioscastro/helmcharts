@@ -42,6 +42,19 @@ spec:
               "helm.sh/resource-policy": keep              
           type: Opaque
           stringData:
+            ldap_passwd: {{ .Values.ldap_passwd }}
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: authelia-secrets-generated
+            labels:
+              {{- include "helm.labels" . | nindent 4 }}            
+          type: Opaque
+          stringData:        
+            devhub: "$AUTH_DEVHUB"
+            rhtpacli: "$AUTH_RHTPACLI"
+            tas: "$AUTH_TAS"
           EOF
       {{- end }}
       containers:
