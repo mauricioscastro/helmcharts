@@ -31,7 +31,19 @@ spec:
           export AUTH_RHTPACLI=`uuidgen` && \
           export AUTH_TAS=`uuidgen` && \
           authelia crypto pair rsa generate -d /tmp && \
-          echo "{{ .Values.ldap_passwd }}"
+          kubectl -n $NS apply -f - <<EOF \
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: authelia-secrets
+            labels:
+              {{- include "helm.labels" . | nindent 14 }}
+            annotations:
+              helm.sh/resource-policy: keep              
+          type: Opaque
+          stringData:
+            ldap_passwd: {{ .Values.ldap_passwd }}
+          EOF
       {{- end }}
       containers:
         - name: authelia
