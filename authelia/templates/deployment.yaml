@@ -43,17 +43,6 @@ spec:
           type: Opaque
           stringData:
             ldap_passwd: {{ .Values.ldap_passwd }}
-          ---
-          apiVersion: v1
-          kind: Secret
-          metadata:
-            name: authelia-secrets-generated
-          type: Opaque
-          stringData:        
-            devhub: "$AUTH_DEVHUB"
-            rhtpacli: "$AUTH_RHTPACLI"
-            tas: "$AUTH_TAS"
-          EOF
       {{- end }}
       containers:
         - name: authelia
