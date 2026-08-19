@@ -36,6 +36,8 @@ spec:
           kind: Secret
           metadata:
             name: authelia-secrets
+            labels:
+              {{- include "helm.labels" . | nindent 4 }}
           type: Opaque
           stringData:
             ldap_passwd: {{ .Values.ldap_passwd }}
@@ -51,6 +53,8 @@ spec:
           kind: Secret
           metadata:
             name: authelia-secrets-generated
+            labels:
+              {{- include "helm.labels" . | nindent 4 }}            
           type: Opaque
           stringData:        
             devhub: "$AUTH_DEVHUB"
