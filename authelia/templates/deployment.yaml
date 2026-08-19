@@ -43,6 +43,14 @@ spec:
           type: Opaque
           stringData:
             ldap_passwd: {{ .Values.ldap_passwd }}
+            session: "$(authelia crypto rand | cut -c 15-)"
+            storage: "$(authelia crypto rand | cut -c 15-)"
+            devhub: "$(authelia crypto hash generate pbkdf2 --variant sha512 --password $AUTH_DEVHUB  | cut -c 9-)"
+            rhtpacli: "$(authelia crypto hash generate pbkdf2 --variant sha512 --password $AUTH_RHTPACLI  | cut -c 9-)"
+            tas: "$(authelia crypto hash generate pbkdf2 --variant sha512 --password $AUTH_TAS  | cut -c 9-)"
+            jwkskey: |-
+          $(sed -e 's/^/    /g' /tmp/private.pem)
+          EOF
       {{- end }}
       containers:
         - name: authelia
