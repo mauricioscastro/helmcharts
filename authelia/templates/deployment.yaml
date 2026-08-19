@@ -26,11 +26,12 @@ spec:
         command: ["bash", "-c"]
         args:
         - |-
-          export AUTH_DEVHUB=`uuidgen`
-          export AUTH_RHTPACLI=`uuidgen`
-          export AUTH_TAS=`uuidgen`
-          authelia crypto pair rsa generate -d /tmp
-          kubectl get secrets -n auth authelia-secrets-generated > /dev/null 2>&1 || kubectl -n $NS apply -f - <<EOF
+          kubectl get secrets -n {{ .Release.Namespace }} authelia-secrets-generated > /dev/null 2>&1 || \
+          export AUTH_DEVHUB=`uuidgen` && \
+          export AUTH_RHTPACLI=`uuidgen` && \
+          export AUTH_TAS=`uuidgen` && \
+          authelia crypto pair rsa generate -d /tmp && \
+          kubectl -n $NS apply -f - <<EOF && \
           apiVersion: v1
           kind: Secret
           metadata:
