@@ -31,7 +31,7 @@ spec:
           export AUTH_RHTPACLI=`uuidgen` && \
           export AUTH_TAS=`uuidgen` && \
           authelia crypto pair rsa generate -d /tmp && \
-          kubectl -n $NS apply -f - <<EOF \
+          kubectl -n $NS apply -f - <<EOF 
           apiVersion: v1
           kind: Secret
           metadata:
@@ -42,26 +42,6 @@ spec:
               "helm.sh/resource-policy": keep              
           type: Opaque
           stringData:
-            ldap_passwd: {{ .Values.ldap_passwd }}
-            session: "$(authelia crypto rand | cut -c 15-)"
-            storage: "$(authelia crypto rand | cut -c 15-)"
-            devhub: "$(authelia crypto hash generate pbkdf2 --variant sha512 --password $AUTH_DEVHUB  | cut -c 9-)"
-            rhtpacli: "$(authelia crypto hash generate pbkdf2 --variant sha512 --password $AUTH_RHTPACLI  | cut -c 9-)"
-            tas: "$(authelia crypto hash generate pbkdf2 --variant sha512 --password $AUTH_TAS  | cut -c 9-)"
-            jwkskey: |-
-          $(sed -e 's/^/    /g' /tmp/private.pem)
-          ---
-          apiVersion: v1
-          kind: Secret
-          metadata:
-            name: authelia-secrets-generated
-            labels:
-              {{- include "helm.labels" . | nindent 4 }}            
-          type: Opaque
-          stringData:        
-            devhub: "$AUTH_DEVHUB"
-            rhtpacli: "$AUTH_RHTPACLI"
-            tas: "$AUTH_TAS"
           EOF
       {{- end }}
       containers:
