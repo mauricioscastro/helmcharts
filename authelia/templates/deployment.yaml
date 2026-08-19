@@ -39,7 +39,7 @@ spec:
             labels:
               {{- include "helm.labels" . | nindent 14 }}
             annotations:
-              "helm.sh/resource-policy": keep              
+              helm.sh/resource-policy: keep              
           type: Opaque
           stringData:
             ldap_passwd: {{ .Values.ldap_passwd }}
