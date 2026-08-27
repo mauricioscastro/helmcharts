@@ -18,10 +18,6 @@ data:
       format: 'text' 
       keep_stdout: true      
 
-    # identity_validation:
-    #   reset_password:
-    #     jwt_secret: {{`{{ secret "/secrets/jwt" }}`}}
-
     # Authentication backend using ldap
     authentication_backend:
       password_reset:
