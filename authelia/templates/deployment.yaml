@@ -26,8 +26,7 @@ spec:
         command: ["bash", "-c"]
         args:
         - |-
-          kubectl get secrets -n {{ .Release.Namespace }} authelia-secrets-generated > /dev/null 2>&1 || \
-          export AUTH_DEVHUB=`uuidgen` && \
+          kubectl get secrets -n {{ .Release.Namespace }} authelia-secrets-generated > /dev/null 2>&1 || export AUTH_DEVHUB=`uuidgen` && \
           export AUTH_RHTPACLI=`uuidgen` && \
           export AUTH_TAS=`uuidgen` && \
           authelia crypto pair rsa generate -d /tmp && \
