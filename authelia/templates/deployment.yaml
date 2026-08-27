@@ -20,17 +20,14 @@ spec:
       initContainers:
       - name: create-secrets
         image: quay.io/zcve/authelia
-        env:
-        - name: NS
-          value: {{ .Release.Namespace }}
         command: ["bash", "-c"]
         args:
         - |-
-          kubectl get secrets -n {{ .Release.Namespace }} authelia-secrets-generated > /dev/null 2>&1 || export AUTH_DEVHUB=`uuidgen` && \
-          export AUTH_RHTPACLI=`uuidgen` && \
-          export AUTH_TAS=`uuidgen` && \
-          authelia crypto pair rsa generate -d /tmp && \
-          kubectl -n $NS apply -f - <<EOF 
+          export AUTH_DEVHUB=`uuidgen`
+          export AUTH_RHTPACLI=`uuidgen`
+          export AUTH_TAS=`uuidgen`
+          authelia crypto pair rsa generate -d /tmp 
+          kubectl get secrets -n {{ .Release.Namespace }} authelia-secrets-generated > /dev/null 2>&1 || kubectl -n {{ .Release.Namespace }} apply -f - <<EOF 
           apiVersion: v1
           kind: Secret
           metadata:
