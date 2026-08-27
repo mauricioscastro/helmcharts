@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: remove-{{ .Release.Name }}-operator-csv
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: delete-authelia-secrets
+          image: quay.io/zcve/bashkc
+          command:
+            - bash
+            - -c    
+            - kubectl delete --ignore-not-found=true secret authelia-secrets-generated authelia-secrets -n {{ .Release.Namespace }}
