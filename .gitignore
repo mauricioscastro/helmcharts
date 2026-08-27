@@ -2,3 +2,4 @@ authelia-pk.pem
 authelia/authelia-rsq-key.pem
 *.pem
 .vscode/
+/tmp
