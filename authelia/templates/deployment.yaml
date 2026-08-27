@@ -23,11 +23,11 @@ spec:
         command: ["bash", "-c"]
         args:
         - |-
-          export AUTH_DEVHUB=`uuidgen`
-          export AUTH_RHTPACLI=`uuidgen`
-          export AUTH_TAS=`uuidgen`
+          export AUTH_DEVHUB=`oc get secrets -n {{ .Release.Namespace }} authelia-secrets-generated -o jsonpath='{.data.devhub}' 2> /dev/null || uuidgen | base64 -w0`
+          export AUTH_RHTPACLI=`oc get secrets -n {{ .Release.Namespace }} authelia-secrets-generated -o jsonpath='{.data.rhtpacli}' 2> /dev/null || uuidgen | base64 -w0`
+          export AUTH_TAS=`oc get secrets -n {{ .Release.Namespace }} authelia-secrets-generated -o jsonpath='{.data.tas}' 2> /dev/null || uuidgen | base64 -w0`  
           authelia crypto pair rsa generate -d /tmp 
-          kubectl get secrets -n {{ .Release.Namespace }} authelia-secrets-generated > /dev/null 2>&1 || kubectl -n {{ .Release.Namespace }} apply -f - <<EOF 
+          kubectl -n {{ .Release.Namespace }} apply -f - <<EOF 
           apiVersion: v1
           kind: Secret
           metadata:
@@ -54,7 +54,7 @@ spec:
             labels:
               {{- include "helm.labels" . | nindent 14 }}            
           type: Opaque
-          stringData:        
+          data:        
             devhub: "$AUTH_DEVHUB"
             rhtpacli: "$AUTH_RHTPACLI"
             tas: "$AUTH_TAS"
