@@ -1,6 +1,5 @@
 domain: apps.xxx.westus.io
 authelia_host_name: authelia
-tpa_auth_host_name: tpa-auth
 devhub_host_name: backstage-rhdh-rhdh
 tpa_host_name: server-tpa
 
@@ -40,6 +39,7 @@ clients:
     redirect_uris:
       - 'https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}'
       - 'https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}/*'
+      - 'http://localhost:9981'
 
   trusted_artifact_signer:
     client_secret: '' # > authelia crypto hash generate pbkdf2 --variant sha512 --password "your_secret"
@@ -50,21 +50,12 @@ route:
       kind: Service
       name: authelia
     port:
-      targetPort: authelia
-    tls:
-      termination: edge
-      insecureEdgeTerminationPolicy: Redirect  
-  tpa:
-    to:
-      kind: Service
-      name: authelia
-    port:
       targetPort: nginx
     tls:
       termination: edge
-      insecureEdgeTerminationPolicy: Redirect
+      insecureEdgeTerminationPolicy: Redirect  
 
 nginx_sub_filter:
-  end_session_endpoint: https://{{ .Values.tpa_auth_host_name }}.{{ .Values.domain }}/logout?rd=https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}
+  end_session_endpoint: https://{{ .Values.authelia_host_name }}.{{ .Values.domain }}/logout?rd=https://{{ .Values.tpa_host_name }}.{{ .Values.domain }}
 
 init_secrets: false

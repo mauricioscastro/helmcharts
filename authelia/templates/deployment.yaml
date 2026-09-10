@@ -23,9 +23,12 @@ spec:
         command: ["bash", "-c"]
         args:
         - |-
-          export AUTH_DEVHUB=`oc get secrets -n {{ .Release.Namespace }} authelia-secrets-generated -o jsonpath='{.data.devhub}' 2> /dev/null || uuidgen | base64 -w0`
-          export AUTH_RHTPACLI=`oc get secrets -n {{ .Release.Namespace }} authelia-secrets-generated -o jsonpath='{.data.rhtpacli}' 2> /dev/null || uuidgen | base64 -w0`
-          export AUTH_TAS=`oc get secrets -n {{ .Release.Namespace }} authelia-secrets-generated -o jsonpath='{.data.tas}' 2> /dev/null || uuidgen | base64 -w0`  
+          export AUTH_DEVHUB=`kubectl get secrets -n auth authelia-secrets-generated -o jsonpath='{.data.devhub}' 2> /dev/null | base64 -d`
+          export AUTH_DEVHUB=`test -n "$AUTH_DEVHUB" && echo $AUTH_DEVHUB || uuidgen`
+          export AUTH_RHTPACLI=`kubectl get secrets -n auth authelia-secrets-generated -o jsonpath='{.data.rhtpacli}' 2> /dev/null | base64 -d`
+          export AUTH_RHTPACLI=`test -n "$AUTH_RHTPACLI" && echo $AUTH_RHTPACLI || uuidgen`              
+          export AUTH_TAS=`kubectl get secrets -n auth authelia-secrets-generated -o jsonpath='{.data.tas}' 2> /dev/null | base64 -d`
+          export AUTH_TAS=`test -n "$AUTH_TAS" && echo $AUTH_TAS || uuidgen`   
           authelia crypto pair rsa generate -d /tmp 
           kubectl -n {{ .Release.Namespace }} apply -f - <<EOF 
           apiVersion: v1
@@ -54,7 +57,7 @@ spec:
             labels:
               {{- include "helm.labels" . | nindent 14 }}            
           type: Opaque
-          data:        
+          stringData:        
             devhub: "$AUTH_DEVHUB"
             rhtpacli: "$AUTH_RHTPACLI"
             tas: "$AUTH_TAS"
