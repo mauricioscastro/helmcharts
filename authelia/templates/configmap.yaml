@@ -217,20 +217,3 @@ data:
         }        
       }
     }
-
-
-    server {
-    listen 9081;
-    location / {
-        proxy_pass http://localhost:9091;
-        proxy_set_header Host '$host';
-        proxy_set_header X-Real-IP $remote_addr;
-        location /.well-known/openid-configuration {
-          proxy_set_header Accept-Encoding "";
-          proxy_pass http://localhost:9091/.well-known/openid-configuration;
-          sub_filter_types application/json;
-          sub_filter '"issuer"' '"end_session_endpoint":"{{ tpl .Values.nginx_sub_filter.end_session_endpoint . }}", "issuer"';
-          sub_filter_once on;
-        }
-      }
-    }          
