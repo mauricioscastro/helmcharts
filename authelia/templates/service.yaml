@@ -9,10 +9,6 @@ spec:
   selector:
     app: authelia
   ports:
-    - name: authelia
-      protocol: TCP
-      port: 9091
-      targetPort: 9091
     - name: nginx 
       protocol: TCP
       port: 9081
