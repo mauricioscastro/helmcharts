@@ -21,13 +21,13 @@ spec:
   fulcio:
     certificate:
       commonName: fulcio.hostname
-      organizationEmail: {{ values.cert.orgmail }}
-      organizationName: {{ values.cert.orgname }}
+      organizationEmail: {{ .Values.cert.orgmail }}
+      organizationName: {{ .Values.cert.orgname }}
     config:
       OIDCIssuers:
-        - ClientID: {{ values.oidc.clientId }}
-          Issuer: {{ values.oidc.issuer }}
-          IssuerURL: {{ values.oidc.issuerUrl }}
+        - ClientID: {{ .Values.oidc.clientId }}
+          Issuer: {{ .Values.oidc.issuer }}
+          IssuerURL: {{ .Values.oidc.issuerUrl }}
           Type: email
     ctlog:
       prefix: trusted-artifact-signer
