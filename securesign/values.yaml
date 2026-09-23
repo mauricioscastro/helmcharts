@@ -1,0 +1,8 @@
+oidc:
+  clientId: trusted-artifact-signer
+  issuer: 'https://authelia.apps.xxx.openshiftapps.com'
+  issuerUrl: 'https://authelia.apps.xxx.openshiftapps.com'
+
+cert:
+  orgmail: macastro@redhat.com
+  orgname: Red Hat

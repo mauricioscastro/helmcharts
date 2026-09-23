@@ -1,0 +1,139 @@
+apiVersion: rhtas.redhat.com/v1alpha1
+kind: Securesign
+metadata:
+  name: securesign  
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}   
+spec:
+  ctlog:
+    maxCertChainSize: 153600
+    monitoring:
+      enabled: true
+      tlog:
+        enabled: false
+        interval: 0s
+      tuf: {}
+    replicas: 1
+    tls: {}
+    trillian:
+      port: 8091
+  fulcio:
+    certificate:
+      commonName: fulcio.hostname
+      organizationEmail: {{ values.cert.orgmail }}
+      organizationName: {{ values.cert.orgname }}
+    config:
+      OIDCIssuers:
+        - ClientID: {{ values.oidc.clientId }}
+          Issuer: {{ values.oidc.issuer }}
+          IssuerURL: {{ values.oidc.issuerUrl }}
+          Type: email
+    ctlog:
+      prefix: trusted-artifact-signer
+    externalAccess:
+      enabled: true
+    monitoring:
+      enabled: true
+    replicas: 1
+  rekor:
+    attestations:
+      enabled: true
+      maxSize: 10Gi
+      url: 'file:///var/run/attestations?no_tmp_dir=true'
+    sharding: []
+    monitoring:
+      enabled: true
+      tlog:
+        enabled: false
+        interval: 0s
+      tuf: {}
+    searchIndex:
+      create: true
+      tls: {}
+    signer:
+      kms: secret
+    trillian:
+      port: 8091
+    maxRequestBodySize: 10485760000
+    externalAccess:
+      enabled: true
+    backFillRedis:
+      enabled: true
+      schedule: 0 0 * * *
+    rekorSearchUI:
+      enabled: true
+      replicas: 1
+    replicas: 1
+    pvc:
+      accessModes:
+        - ReadWriteOnce
+      retain: true
+      size: 5Gi
+  trillian:
+    database:
+      create: true
+      provider: mysql
+      pvc:
+        accessModes:
+          - ReadWriteOnce
+        retain: true
+        size: 5Gi
+      tls: {}
+      uri: '$(MYSQL_USER):$(MYSQL_PASSWORD)@tcp($(MYSQL_HOST):$(MYSQL_PORT))/$(MYSQL_DATABASE)'
+    maxRecvMessageSize: 153600
+    monitoring:
+      enabled: true
+    server:
+      replicas: 1
+      tls: {}
+    signer:
+      replicas: 1
+      tls: {}
+  tsa:
+    externalAccess:
+      enabled: true
+    maxRequestBodySize: 1048576
+    monitoring:
+      enabled: true
+    ntpMonitoring:
+      enabled: true
+    replicas: 1
+    signer:
+      certificateChain:
+        intermediateCA:
+          - commonName: tsa.hostname-intermediate
+            organizationEmail: macastro@redhat.com
+            organizationName: Red Hat
+        leafCA:
+          commonName: tsa.hostname-leaf
+          organizationEmail: macastro@redhat.com
+          organizationName: Red Hat
+        rootCA:
+          commonName: tsa.hostname-root
+          organizationEmail: macastro@redhat.com
+          organizationName: Red Hat
+  tuf:
+    port: 80
+    tsa: {}
+    rootKeySecretRef:
+      name: tuf-root-keys
+    signingConfigURLMode: external
+    fulcio: {}
+    externalAccess:
+      enabled: true
+    ctlog:
+      prefix: trusted-artifact-signer
+    keys:
+      - name: rekor.pub
+      - name: ctfe.pub
+      - name: fulcio_v1.crt.pem
+      - name: tsa.certchain.pem
+    rekor: {}
+    replicas: 1
+    pvc:
+      accessModes:
+        - ReadWriteOnce
+      retain: true
+      size: 100Mi
+
