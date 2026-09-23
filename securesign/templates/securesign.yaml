@@ -21,7 +21,7 @@ spec:
   fulcio:
     certificate:
       commonName: fulcio.hostname
-      organizationEmail: {{ .Values.cert.orgname }}
+      organizationEmail: {{ .Values.cert.orgmail }}
       organizationName: {{ .Values.cert.orgname }}
     config:
       OIDCIssuers:
