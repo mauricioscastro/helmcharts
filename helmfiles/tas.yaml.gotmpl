@@ -1,0 +1,19 @@
+repositories:
+  - name: mscastro  
+    url: {{ env "REPO_URL" | default "https://charts.mscastro.net" }}
+    {{- if env "REPO_URL" | contains "http://" }}
+    plainHttp: true
+    {{- end }}
+
+releases:
+  - name: trusted-artifact-signer-operator
+    namespace: tas
+    createNamespace: true
+    chart: mscastro/trusted-artifact-signer-operator
+
+  - name: securesign
+    namespace: tas
+    createNamespace: true
+    chart: mscastro/securesign
+    needs: 
+      - tas/trusted-artifact-signer-operator
