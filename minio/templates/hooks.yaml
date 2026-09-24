@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-buckets
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}    
+spec:
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: create-buckets
+          image: quay.io/zcve/bashkc
+          env:
+          - name: buckets
+            value: {{ .Values.buckets }}
+          command:
+            - bash
+            - -c    
+            - |
+              mc alias set local http://minio:9000 {{ .Values.user }} {{ .Values.password }}
+              for bucket in $(echo $buckets | tr "," "\n"); do
+                mc mb local/$bucket
+              done

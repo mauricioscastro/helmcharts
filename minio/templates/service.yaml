@@ -1,0 +1,25 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: minio
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}   
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: api
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+    - name: ui
+      protocol: TCP
+      port: 9001
+      targetPort: 9001
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: minio

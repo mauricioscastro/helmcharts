@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minio
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}  
+spec:
+  serviceName: minio
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate  
+  replicas: 2
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        image: quay.io/minio/minio
+        imagePullPolicy: IfNotPresent
+        args:
+        - server
+        - --console-address=:9001
+        - http://minio-{0...1}.minio.minio.svc.cluster.local/data
+        env:
+          - name: MINIO_ROOT_USER
+            valueFrom:
+              secretKeyRef:
+                name: minio
+                key: minio_root_user
+          - name: MINIO_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: minio
+                key: minio_root_password
+        ports:
+        - containerPort: 9000
+          name: api
+        - containerPort: 9001
+          name: ui
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst        
+        resources:
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 20m
+            memory: 500Mi
+        livenessProbe:
+          exec:
+            command: ["curl", "-f", "http://localhost:9000/minio/health/live"]
+          initialDelaySeconds: 3
+          periodSeconds: 3
+          timeoutSeconds: 3
+        readinessProbe:
+          exec:
+            command: ["curl", "-f", "http://localhost:9000/minio/health/live"]
+          initialDelaySeconds: 3
+          periodSeconds: 2
+          timeoutSeconds: 1       
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ReadWriteOncePod]
+      #storageClassName: managed-csi 
+      storageClassName: {{ .Values.storageClassName }}
+      resources:
+        requests:
+          storage: {{ .Values.size }}            
