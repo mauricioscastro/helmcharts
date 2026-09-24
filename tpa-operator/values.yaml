@@ -1,0 +1,6 @@
+  channel: stable
+  installPlanApproval: Automatic
+  name: rhtpa-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: rhtpa-operator.v3.1.0

@@ -1,6 +1,6 @@
 storageClassName: gp3-csi
 size: 100Gi
 user: minio
-password: minio123
+password: ''
 # a comma separated list of buckets to create on startup. Example: "bucket1,bucket2,bucket3"
 buckets: "" 
