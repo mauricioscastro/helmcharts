@@ -10,7 +10,7 @@ data:
     authentication:
       clients:
         - clientId: rhtpa-front
-          issuerUrl: {{ .Values.oidc.issuerUrl }}
+          issuerUrl: {{ .Values.oidc.issuer }}
 
           scopeSelector: "$['scp','groups']"
 
@@ -55,7 +55,7 @@ data:
               - "delete.weakness"
 
         - clientId: rhtpa-cli
-          issuerUrl: {{ .Values.oidc.issuerUrl }}
+          issuerUrl: {{ .Values.oidc.issuer }}
           requiredAudience: rhtpa-cli
 
           scopeSelector: "$['scp','groups']"
