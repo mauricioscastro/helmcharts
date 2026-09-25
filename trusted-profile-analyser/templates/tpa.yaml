@@ -86,68 +86,68 @@ spec:
         secretKeyRef:
           key: db.user
           name: postgresql-credentials
-  # oidc:
-  #   clients:
-  #     # curl -s -H 'accept: application/json'
-  #     # -H "Authorization: Bearer $TOKEN_FROM_RHTPA-CLI"
-  #     # "$TRUSTIFY_URL/api/v3/sbom?q=name~zcve&total=true"
-  #     # | yq -pj -oy
-  #     cli:
-  #       clientId: rhtpa-cli
-  #       clientSecret:
-  #         valueFrom:
-  #           secretKeyRef:
-  #             key: client-secret
-  #             name: oidc-client-secret
-  #     frontend:
-  #       clientId: rhtpa-front
-  #   issuerUrl: {{ .Values.oidc.issuer }}
-  #   loadUser: false
-  #   uiScope: openid profile email rhtpadw rhtpadr rhtpadu rhtpadd
-  # tls:
-  #   additionalTrustAnchor: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-  #   serviceEnabled: true
-  # database:
-  #   host:
-  #     valueFrom:
-  #       secretKeyRef:
-  #         key: db.host
-  #         name: postgresql-credentials
-  #   name:
-  #     valueFrom:
-  #       secretKeyRef:
-  #         key: db.name
-  #         name: postgresql-credentials
-  #   password:
-  #     valueFrom:
-  #       secretKeyRef:
-  #         key: db.password
-  #         name: postgresql-credentials
-  #   port:
-  #     valueFrom:
-  #       secretKeyRef:
-  #         key: db.port
-  #         name: postgresql-credentials
-  #   sslMode: disable
-  #   username:
-  #     valueFrom:
-  #       secretKeyRef:
-  #         key: db.user
-  #         name: postgresql-credentials
-  # storage:
-  #   accessKey:
-  #     valueFrom:
-  #       secretKeyRef:
-  #         key: user
-  #         name: s3-credentials
-  #   bucket: {{ .Values.bucket.name }}
-  #   region: {{ .Values.bucket.region }}
-  #   secretKey:
-  #     valueFrom:
-  #       secretKeyRef:
-  #         key: password
-  #         name: s3-credentials
-  #   type: s3
-  # replicas: 1
+  oidc:
+    clients:
+      # curl -s -H 'accept: application/json'
+      # -H "Authorization: Bearer $TOKEN_FROM_RHTPA-CLI"
+      # "$TRUSTIFY_URL/api/v3/sbom?q=name~zcve&total=true"
+      # | yq -pj -oy
+      cli:
+        clientId: rhtpa-cli
+        clientSecret:
+          valueFrom:
+            secretKeyRef:
+              key: client-secret
+              name: oidc-client-secret
+      frontend:
+        clientId: rhtpa-front
+    issuerUrl: {{ .Values.oidc.issuer }}
+    loadUser: false
+    uiScope: openid profile email rhtpadw rhtpadr rhtpadu rhtpadd
+  tls:
+    additionalTrustAnchor: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    serviceEnabled: true
+  database:
+    host:
+      valueFrom:
+        secretKeyRef:
+          key: db.host
+          name: postgresql-credentials
+    name:
+      valueFrom:
+        secretKeyRef:
+          key: db.name
+          name: postgresql-credentials
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: db.password
+          name: postgresql-credentials
+    port:
+      valueFrom:
+        secretKeyRef:
+          key: db.port
+          name: postgresql-credentials
+    sslMode: disable
+    username:
+      valueFrom:
+        secretKeyRef:
+          key: db.user
+          name: postgresql-credentials
+  storage:
+    accessKey:
+      valueFrom:
+        secretKeyRef:
+          key: user
+          name: s3-credentials
+    bucket: {{ .Values.bucket.name }}
+    region: {{ .Values.bucket.region }}
+    secretKey:
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: s3-credentials
+    type: s3
+  replicas: 1
 
 
