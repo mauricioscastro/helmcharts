@@ -11,6 +11,6 @@ spec:
   name: {{ .Values.name }}
   source: {{ .Values.source }}
   sourceNamespace: {{ .Values.sourceNamespace }}
-  startingCSV: {{ .Values.startingCSV }
+  startingCSV: {{ .Values.startingCSV }}
 
 
