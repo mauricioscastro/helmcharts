@@ -10,7 +10,8 @@ data:
     authentication:
       clients:
         - clientId: rhtpa-front
-          issuerUrl: {{ .Values.oidc.issuer }}
+          issuerUrl: "asdfasdf"
+          #{{ .Values.oidc.issuer }}
 
           scopeSelector: "$['scp','groups']"
 
