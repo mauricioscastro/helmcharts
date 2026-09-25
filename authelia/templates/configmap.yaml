@@ -117,6 +117,12 @@ data:
               - code
             userinfo_signed_response_alg: none
 
+          # curl -s -X POST https://authelia/api/oidc/token 
+          # -H "Content-Type: application/x-www-form-urlencoded"
+          # -u 'rhtpa-cli:1fe3e145-d9d1-4357-af99-a1580043a854'
+          # -d 'grant_type=client_credentials'
+          # -d "scope=email groups rhtpadr rhtpadw rhtpadu rhtpadd"
+          # | jq .access_token
           - client_id: rhtpa-cli
             client_name: rhtpa-cli
             client_secret: {{`{{ secret "/secrets/rhtpacli" }}`}}

@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: tas-operator-reader
+  name: {{ .Values.name }}-operator-reader
   labels:
     {{- include "helm.labels" . | nindent 4 }}
 roleRef:
@@ -17,7 +17,7 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: tas-operator-deleter
+  name: {{ .Values.name }}-operator-deleter
   labels:
     {{- include "helm.labels" . | nindent 4 }}  
 rules:
@@ -35,14 +35,14 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: tas-operator-deleter-openshift-operators
+  name: {{ .Values.name }}-operator-deleter-openshift-operators
   namespace: openshift-operators
   labels:
     {{- include "helm.labels" . | nindent 4 }}  
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: tas-operator-deleter
+  name: {{ .Values.name }}-operator-deleter
 subjects:
 - kind: ServiceAccount
   name: default
@@ -52,13 +52,13 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: tas-operator-deleter-cluster
+  name: {{ .Values.name }}-operator-deleter-cluster
   labels:
     {{- include "helm.labels" . | nindent 4 }}  
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: tas-operator-deleter
+  name: {{ .Values.name }}-operator-deleter
 subjects:
 - kind: ServiceAccount
   name: default
