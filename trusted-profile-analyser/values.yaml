@@ -1,4 +1,4 @@
-domain: "apps.xxx.openshift.com""
+domain: apps.xxx.openshift.com
 
 postgres:
   host: postgres
