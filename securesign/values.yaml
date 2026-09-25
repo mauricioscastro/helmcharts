@@ -1,3 +1,8 @@
+# gcloud --verbosity=none auth print-identity-token 
+# --audiences="trusted-artifact-signer" 
+# --include-email
+# --impersonate-service-account="x@x.iam.gserviceaccount.com"
+
 oidc:
   clientId: trusted-artifact-signer
   issuer: https://authelia.apps.xxx.openshiftapps.com
