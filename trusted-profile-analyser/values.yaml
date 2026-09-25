@@ -1,3 +1,5 @@
+domain: "apps.xxx.openshift.com""
+
 postgres:
   host: postgres
   name: postgres
@@ -6,11 +8,12 @@ postgres:
   port: "5432"
 
 oidc:
-  issuerUrl: 'https://tpaauth.apps.rosa.acmlab.202y.p3.openshiftapps.com'
+  issuerUrl: ''
   secret: ''
 
 bucket:
   name: rhtpa
+  region: 'http://minio.minio.svc.cluster.local:9000'
   user: minio
   password: ''
 

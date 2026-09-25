@@ -13,7 +13,7 @@ spec:
   rust:
     backtrace: true
     logFilter: debug
-  appDomain: "-tpa.apps.rosa.acmlab.202y.p3.openshiftapps.com"
+  appDomain: "-tpa".{{ .Values.domain }}
   migrateDatabase:
     password:
       valueFrom:
@@ -101,7 +101,7 @@ spec:
               name: oidc-client-secret
       frontend:
         clientId: rhtpa-front
-    issuerUrl: 'https://tpaauth.apps.rosa.acmlab.202y.p3.openshiftapps.com'
+    issuerUrl: {{ .Values.oidc.issuerUrl }}
     loadUser: false
     uiScope: openid profile email rhtpadw rhtpadr rhtpadu rhtpadd
   tls:
@@ -140,8 +140,8 @@ spec:
         secretKeyRef:
           key: user
           name: s3-credentials
-    bucket: rhtpa
-    region: 'http://minio.minio.svc.cluster.local:9000'
+    bucket: {{ .Values.bucket.name }}
+    region: {{ .Values.bucket.region }}
     secretKey:
       valueFrom:
         secretKeyRef:
