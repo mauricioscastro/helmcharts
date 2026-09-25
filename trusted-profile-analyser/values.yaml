@@ -1,0 +1,16 @@
+postgres:
+  host: postgres
+  name: postgres
+  user: postgres
+  password: postgres
+  port: "5432"
+
+oidc:
+  issuerUrl: 'https://tpaauth.apps.rosa.acmlab.202y.p3.openshiftapps.com'
+  secret: ''
+
+bucket:
+  name: rhtpa
+  user: minio
+  password: ''
+

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}  
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgresql
+          image: registry.redhat.io/rhel10/postgresql-18:10.2-1779932641
+          ports:
+            - containerPort: 5432
+              name: postgresql
+          env:
+            - name: POSTGRESQL_USER
+              value: {{ .Values.postgres.user }}
+            - name: POSTGRESQL_PASSWORD
+              value: {{ .Values.postgres.password }}
+            - name: POSTGRESQL_DATABASE
+              value: {{ .Values.postgres.name }}
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/pgsql/data
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: "500m"
+              memory: 256Mi
+      volumes:
+        - name: postgres-storage
+          emptyDir: {}

@@ -1,0 +1,153 @@
+apiVersion: rhtpa.io/v1
+kind: TrustedProfileAnalyzer
+metadata:
+  name: tpa
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}  
+spec:
+  tracing:
+    enabled: false
+  metrics:
+    enabled: false
+  rust:
+    backtrace: true
+    logFilter: debug
+  appDomain: "-tpa.apps.rosa.acmlab.202y.p3.openshiftapps.com"
+  migrateDatabase:
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: db.password
+          name: postgresql-credentials
+    username:
+      valueFrom:
+        secretKeyRef:
+          key: db.user
+          name: postgresql-credentials
+  modules:
+    createDatabase:
+      enabled: true
+    createImporters:
+      enabled: true
+      importers:
+        cve:
+          cve:
+            description: CVE list v5
+            disabled: false
+            period: 1d
+            source: 'https://github.com/CVEProject/cvelistV5'
+        osv-github:
+          osv:
+            description: GitHub Advisory Database
+            disabled: false
+            path: advisories
+            period: 1d
+            source: 'https://github.com/github/advisory-database'
+        redhat-csaf:
+          csaf:
+            description: All Red Hat CSAF data
+            disabled: true
+            fetchRetries: 50
+            period: 1d
+            source: redhat.com
+        redhat-sboms:
+          sbom:
+            description: All Red Hat SBOMs
+            disabled: false
+            fetchRetries: 50
+            keys:
+              - 'https://access.redhat.com/security/data/97f5eac4.txt#77E79ABE93673533ED09EBE2DCE3823597F5EAC4'
+            period: 1d
+            source: 'https://access.redhat.com/security/data/sbom/beta/'
+    migrateDatabase:
+      enabled: true
+  partOf: trustify
+  collector: {}
+  authenticator:
+    configMapRef:
+      key: auth.yaml
+      name: auth-authelia
+  ingress:
+    className: openshift-default
+  createDatabase:
+    name:
+      valueFrom:
+        secretKeyRef:
+          key: db.name
+          name: postgresql-credentials
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: db.password
+          name: postgresql-credentials
+    username:
+      valueFrom:
+        secretKeyRef:
+          key: db.user
+          name: postgresql-credentials
+  oidc:
+    clients:
+      # curl -s -H 'accept: application/json'
+      # -H "Authorization: Bearer $TOKEN_FROM_RHTPA-CLI"
+      # "$TRUSTIFY_URL/api/v3/sbom?q=name~zcve&total=true"
+      # | yq -pj -oy
+      cli:
+        clientId: rhtpa-cli
+        clientSecret:
+          valueFrom:
+            secretKeyRef:
+              key: client-secret
+              name: oidc-client-secret
+      frontend:
+        clientId: rhtpa-front
+    issuerUrl: 'https://tpaauth.apps.rosa.acmlab.202y.p3.openshiftapps.com'
+    loadUser: false
+    uiScope: openid profile email rhtpadw rhtpadr rhtpadu rhtpadd
+  tls:
+    additionalTrustAnchor: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    serviceEnabled: true
+  database:
+    host:
+      valueFrom:
+        secretKeyRef:
+          key: db.host
+          name: postgresql-credentials
+    name:
+      valueFrom:
+        secretKeyRef:
+          key: db.name
+          name: postgresql-credentials
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: db.password
+          name: postgresql-credentials
+    port:
+      valueFrom:
+        secretKeyRef:
+          key: db.port
+          name: postgresql-credentials
+    sslMode: disable
+    username:
+      valueFrom:
+        secretKeyRef:
+          key: db.user
+          name: postgresql-credentials
+  storage:
+    accessKey:
+      valueFrom:
+        secretKeyRef:
+          key: user
+          name: s3-credentials
+    bucket: rhtpa
+    region: 'http://minio.minio.svc.cluster.local:9000'
+    secretKey:
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: s3-credentials
+    type: s3
+  replicas: 1
+
+

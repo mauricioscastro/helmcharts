@@ -21,4 +21,4 @@ spec:
             - bash
             - -c    
             - |
-              kubectl -n openshift-operators wait deployment/rhtas-operator-controller-manager --for=condition=Available --timeout=200s
+              kubectl -n {{ .Release.Namespace }} wait deployment.apps/rhtpa-operator-controller-manager --for=condition=Available --timeout=200s
