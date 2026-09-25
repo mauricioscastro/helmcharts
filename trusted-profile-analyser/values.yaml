@@ -8,7 +8,7 @@ postgres:
   port: "5432"
 
 oidc:
-  issuerUrl: ''
+  issuer: ''
   secret: ''
 
 bucket:

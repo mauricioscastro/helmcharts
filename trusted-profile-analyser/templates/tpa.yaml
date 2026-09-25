@@ -101,7 +101,7 @@ spec:
               name: oidc-client-secret
       frontend:
         clientId: rhtpa-front
-    issuerUrl: {{ .Values.oidc.issuerUrl }}
+    issuerUrl: {{ .Values.oidc.issuer }}
     loadUser: false
     uiScope: openid profile email rhtpadw rhtpadr rhtpadu rhtpadd
   tls:
