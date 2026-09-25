@@ -8,11 +8,11 @@ metadata:
 spec:
   tracing:
     enabled: false
-  metrics:
-    enabled: false
-  rust:
-    backtrace: true
-    logFilter: debug
+  # metrics:
+  #   enabled: false
+  # rust:
+  #   backtrace: true
+  #   logFilter: debug
   # appDomain: "-tpa."{{ .Values.domain }}
   # migrateDatabase:
   #   password:
