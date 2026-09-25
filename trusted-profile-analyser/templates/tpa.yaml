@@ -13,7 +13,7 @@ spec:
   rust:
     backtrace: true
     logFilter: debug
-  appDomain: "-tpa".{{ .Values.domain }}
+  appDomain: "-tpa."{{ .Values.domain }}
   migrateDatabase:
     password:
       valueFrom:
