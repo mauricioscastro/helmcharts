@@ -1,4 +1,4 @@
-  channel: stable
+  channel: stable-v3
   installPlanApproval: Automatic
   name: rhtpa-operator
   source: redhat-operators
