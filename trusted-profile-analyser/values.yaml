@@ -4,8 +4,8 @@ postgres:
   host: postgres
   name: postgres
   user: postgres
-  password: postgres
-  port: "5432"
+  password: ''
+  port: 5432
 
 oidc:
   issuer: ''
