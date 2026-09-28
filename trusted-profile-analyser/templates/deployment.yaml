@@ -4,9 +4,8 @@ metadata:
   name: postgres
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "helm.labels" . | nindent 4 }}  
-  labels:
     app: postgres
+    {{- include "helm.labels" . | nindent 4 }}  
 spec:
   replicas: 1
   selector:
