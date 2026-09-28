@@ -1,0 +1,20 @@
+repositories:
+  - name: mscastro  
+    url: {{ env "REPO_URL" | default "https://charts.mscastro.net" }}
+    {{- if env "REPO_URL" | contains "http://" }}
+    plainHttp: true
+    {{- end }}
+
+releases:
+  - name: tpa-operator
+    namespace: tpa
+    createNamespace: true
+    chart: mscastro/rhtpa-operator
+    wait: true
+
+  - name: tpa
+    namespace: tpa
+    createNamespace: true
+    chart: mscastro/tpa
+    needs: 
+      - tpa/tpa-operator
